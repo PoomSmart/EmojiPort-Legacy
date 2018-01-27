@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "Wiping keyboard caches..."
+rm -rf /private/var/mobile/Library/Caches/com.apple.keyboards
+rm -rf /private/var/root/Library/Caches/com.apple.keyboards
+
+if [ -d "/System/Library/Frameworks/GameController.framework" ];then
+	# iOS 7+
+	echo "Backing up emoji preferences into /Library/Emoji83"
+	if [ -f "/private/var/mobile/Library/Preferences/com.apple.EmojiPreferences.plist" ];then
+		cp /private/var/mobile/Library/Preferences/com.apple.EmojiPreferences.plist /Library/Emoji83/com.apple.EmojiPreferences.plist
+	else
+		echo "Could not find the preferences."
+	fi
+	rm -f /Library/MobileSubstrate/DynamicLibraries/Emoji10Legacy/Emoji10iOS6.dylib
+else
+	# iOS 6
+	rm -f /Library/MobileSubstrate/DynamicLibraries/Emoji10Legacy/Emoji10iOS78.dylib
+fi
+
+echo "IMPORTANT: You MUST install latest emoji font in order to display emoji on your devices correctly, the guide is included as like in the tweak description."
+echo "Done."

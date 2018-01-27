@@ -1,0 +1,18 @@
+#!/bin/bash
+
+echo "Wiping keyboard caches..."
+rm -rf /private/var/mobile/Library/Caches/com.apple.keyboards
+rm -rf /private/var/root/Library/Caches/com.apple.keyboards
+
+if [ -d "/System/Library/Frameworks/GameController.framework" ];then
+	# iOS 7+
+	echo "Restoring old emoji preferences..."
+	if [ -f "/Library/Emoji83/com.apple.EmojiPreferences.plist" ];then
+		mv /Library/Emoji83/com.apple.EmojiPreferences.plist /private/var/mobile/Library/Preferences/com.apple.EmojiPreferences.plist
+	else
+		echo "Could not find the preferences."
+	fi
+fi
+
+echo "IMPORTANT: If after uninstallation emojis don't display correctly, restore the original emoji font(s)."
+echo "Done."
