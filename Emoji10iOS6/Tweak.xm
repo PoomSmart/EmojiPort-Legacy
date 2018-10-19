@@ -50,16 +50,9 @@ void fixEmojiGlyph(UIKeyboardEmoji *emoji) {
         CGGlyph glyphs[length];
         if (CTFontGetGlyphsForCharacters(emojiFont, characters, glyphs, length)) {
             CGGlyph g = emoji.glyph = glyphs[0];
-            if (g >= 5 && g <= 16)
-                emoji.glyph += 44;
-            else if (g == 44)
-                emoji.glyph = 48;
+            emoji.glyph = [PSEmojiUtilities emojiGlyphShift:g];
         }
     }
-    if (stringEqual(emojiString, @"#️⃣"))
-        emoji.glyph = 47;
-    else if (emoji.glyph == 795 && stringLength >= 4)
-        emoji.glyph = 796;
     fromTweak = NO;
 }
 
