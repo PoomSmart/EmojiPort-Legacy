@@ -37,13 +37,13 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 
 %hook UIKeyboardEmojiScrollView
 
-- (id)initWithFrame: (CGRect)frame keyplane: (UIKBTree *)keyplane key: (UIKBTree *)key {
+- (id)initWithFrame:(CGRect)frame keyplane:(UIKBTree *)keyplane key:(UIKBTree *)key {
     self = %orig;
     configureScrollView(self, frame);
     return self;
 }
 
-- (void)setRenderConfig: (UIKBRenderConfig *)config {
+- (void)setRenderConfig:(UIKBRenderConfig *)config {
     %orig;
     self._mycategoryLabel.textColor = config.whiteText ? UIColor.whiteColor : [UIColor colorWithWhite:0.2 alpha: 1.0];
 }
@@ -57,7 +57,7 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 %property(retain, nonatomic) UILabel *_mycategoryLabel;
 
 %new
-- (void)updateLabel: (NSInteger)categoryType {
+- (void)updateLabel:(NSInteger)categoryType {
     self._mycategoryLabel.text = [[[NSClassFromString(@"UIKeyboardEmojiCategory") categoryForType:categoryType] displayName] uppercaseStringWithLocale:[NSLocale currentLocale]];
 }
 
@@ -66,7 +66,7 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
     MSHookIvar < UILabel *> (self, "_categoryLabel").hidden = YES;
 }
 
--(void)reloadForCategory: (UIKeyboardEmojiCategory *)category {
+-(void)reloadForCategory:(UIKeyboardEmojiCategory *)category {
     %orig;
     [self updateLabel: category.categoryType];
 }
@@ -92,7 +92,7 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 
 %hook EmojiPageControl
 
-- (void)setHidden: (BOOL)hidden {
+- (void)setHidden:(BOOL)hidden {
     %orig(YES);
 }
 
@@ -100,7 +100,7 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 
 %hook UIKeyboardEmojiScrollView
 
-- (id)initWithFrame: (CGRect)frame keyboard: (UIKBTree *)keyplane key: (UIKBTree *)key state: (NSInteger)state {
+- (id)initWithFrame:(CGRect)frame keyboard:(UIKBTree *)keyplane key:(UIKBTree *)key state:(NSInteger)state {
     self = %orig;
     configureScrollView(self, frame);
     return self;

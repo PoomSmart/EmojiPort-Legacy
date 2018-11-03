@@ -1,4 +1,4 @@
-#import "../EmojiLibrary/Header.h"
+#import "../../EmojiLibrary/Header.h"
 #import <UIKit/UIKeyboardInputMode.h>
 #import <UIKit/UIKeyboardInputModeController.h>
 #import <UIKit/UICompatibilityInputViewController.h>
@@ -27,7 +27,7 @@
 
 %hook _UIEmojiPageControl
 
-- (void)setHidden: (BOOL)hidden {
+- (void)setHidden:(BOOL)hidden {
     %orig(YES);
 }
 
@@ -43,7 +43,7 @@
 
 %hook UIKBRenderFactory_Emoji
 
-- (UIKBRenderTraits *)backgroundTraitsForKeyplane: (UIKBTree *)keyplane {
+- (UIKBRenderTraits *)backgroundTraitsForKeyplane:(UIKBTree *)keyplane {
     UIKBRenderTraits *traits = %orig;
     if (self.renderConfig.lightKeyboard)
         traits.backgroundGradient = [NSClassFromString(@"UIKBGradient") gradientWithFlatColor:@"UIKBColorClear"];
@@ -70,7 +70,7 @@
 
 %hook UIKBRenderFactoryEmoji_iPhone
 
-- (UIKBRenderTraits *)_traitsForKey: (UIKBTree *)key onKeyplane: (UIKBTree *)keyplane {
+- (UIKBRenderTraits *)_traitsForKey:(UIKBTree *)key onKeyplane:(UIKBTree *)keyplane {
     UIKBRenderTraits *traits = %orig;
     if ((key.displayType == 0x3 || key.displayType == 0x5 || key.displayType == 0xd || key.displayType == 0x19 || key.displayType == 0x25) && (key.state & 2)) {
         traits.backgroundGradient = nil;

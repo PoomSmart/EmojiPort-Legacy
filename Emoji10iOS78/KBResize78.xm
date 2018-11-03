@@ -35,7 +35,7 @@ void aHook(UIKeyboardEmojiCategoryBar *self, UIKBTree *key) {
 
 %hook UIKBRenderFactoryEmoji_iPhone
 
-- (UIKBRenderTraits *)_traitsForKey: (UIKBTree *)key onKeyplane: (UIKBTree *)keyplane {
+- (UIKBRenderTraits *)_traitsForKey:(UIKBTree *)key onKeyplane:(UIKBTree *)keyplane {
     UIKBRenderTraits *traits = %orig;
     if (traits) {
         NSString *keyName = key.name;
@@ -100,7 +100,7 @@ void aHook(UIKeyboardEmojiCategoryBar *self, UIKBTree *key) {
 %hook UIKBKeyView
 
 %new
-- (void)emoji83_positionFixForKeyplane: (UIKBTree *)keyplane key: (UIKBTree *)key {
+- (void)emoji83_positionFixForKeyplane:(UIKBTree *)keyplane key:(UIKBTree *)key {
     NSString *keyName = key.name;
     NSString *keyplaneName = keyplane.name;
     if (isTargetKey(keyName) && [keyplaneName rangeOfString:@"Emoji"].location != NSNotFound) {
@@ -135,7 +135,7 @@ void aHook(UIKeyboardEmojiCategoryBar *self, UIKBTree *key) {
 
 %hook UIKeyboardEmojiCategoryBar
 
-- (id)initWithFrame: (CGRect)frame keyplane: (UIKBTree *)keyplane key: (UIKBTree *)key {
+- (id)initWithFrame:(CGRect)frame keyplane:(UIKBTree *)keyplane key:(UIKBTree *)key {
     UIKBShape *shape = key.shape;
     if (shape) {
         CGFloat height = [SoftPSEmojiLayout scrollViewHeight:keyplane.name];
@@ -154,7 +154,7 @@ void aHook(UIKeyboardEmojiCategoryBar *self, UIKBTree *key) {
 
 %hook UIKeyboardEmojiScrollView
 
-- (id)initWithFrame: (CGRect)frame keyplane: (UIKBTree *)keyplane key: (UIKBTree *)key {
+- (id)initWithFrame:(CGRect)frame keyplane:(UIKBTree *)keyplane key:(UIKBTree *)key {
     NSString *keyplaneName = keyplane.name;
     if (key && [keyplaneName rangeOfString:@"Emoji"].location != NSNotFound && [key.name isEqualToString:@"Emoji-InputView-Key"]) {
         UIKBShape *shape2 = key.shape;
@@ -199,7 +199,7 @@ CGSize hookSize(CGSize size) {
 
 %hook UIKeyboardLayoutStar
 
-- (void)_resizeForKeyplaneSize: (CGSize)size splitWidthsChanged: (BOOL)changed {
+- (void)_resizeForKeyplaneSize:(CGSize)size splitWidthsChanged:(BOOL)changed {
     %orig(hookSize(size), changed);
 }
 
@@ -211,7 +211,7 @@ CGSize hookSize(CGSize size) {
 
 %hook UIKeyboardLayoutStar
 
-- (void)resizeForKeyplaneSize: (CGSize)size {
+- (void)resizeForKeyplaneSize:(CGSize)size {
     NSInteger orientation = [[NSClassFromString(@"UIKeyboard") activeKeyboard] interfaceOrientation];
     UIKBScreenTraits *screenTraits = [NSClassFromString(@"UIKBScreenTraits") traitsWithScreen:[UIKeyboardImpl keyboardScreen] orientation:orientation];
     [screenTraits setOrientationKey:[UIKeyboardImpl orientationKeyForOrientation:orientation]];

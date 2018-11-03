@@ -9,9 +9,9 @@ include $(THEOS)/makefiles/common.mk
 
 LIBRARY_NAME = Emoji10iOS78
 Emoji10iOS78_INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries/Emoji10Legacy
-Emoji10iOS78_FILES = ../EmojiHUD.mm ../EmojiHUDSupport.xm ../LegacyUI.xm ../iOS83UI.xm ../iOS83UIModern.xm KBResize78.xm ../KBResizeLegacy.xm Tweak.xm
+Emoji10iOS78_FILES = ../EmojiHUD.mm ../EmojiHUDSupport.xm ../LegacyUI.xm ../iOS83UI.xm iOS83UIModern.xm KBResize78.xm ../KBResizeLegacy.xm Tweak.xm
 ifeq ($(SIMULATOR),1)
-	Emoji10iOS78_FILES += ../NoKeyboardCache.xm
+	Emoji10iOS78_FILES += NoKeyboardCache.xm
 endif
 Emoji10iOS78_FRAMEWORKS = UIKit CoreGraphics CoreFoundation
 Emoji10iOS78_EXTRA_FRAMEWORKS = CydiaSubstrate

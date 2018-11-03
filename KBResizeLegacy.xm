@@ -16,7 +16,7 @@ BOOL isEmojiInput() {
 
 %hook UIKeyboardImpl
 
-+ (CGSize)sizeForInterfaceOrientation: (NSInteger)orientation {
++ (CGSize)sizeForInterfaceOrientation:(NSInteger)orientation {
     CGSize size = %orig;
     if (isEmojiInput())
         size.height = [SoftPSEmojiLayout keyboardHeight:keyboardName()];
@@ -41,7 +41,7 @@ BOOL isEmojiInput() {
 
 %hook UIKeyboardLayoutStar
 
-- (void)resizeForKeyplaneSize: (CGSize)size {
+- (void)resizeForKeyplaneSize:(CGSize)size {
     %orig([UIKeyboardImpl keyboardSizeForInterfaceOrientation:[[UIApplication sharedApplication] _frontMostAppOrientation]]);
 }
 
@@ -92,7 +92,7 @@ void modifyKeyboard(UIKBTree *keyboard, NSString *name) {
 
 %group iOS70
 
-- (UIKBTree *)keyboardWithName: (NSString *)name inCache: (id)cache {
+- (UIKBTree *)keyboardWithName:(NSString *)name inCache:(id)cache {
     UIKBTree *keyboard = %orig;
     modifyKeyboard(keyboard, name);
     return keyboard;
@@ -102,7 +102,7 @@ void modifyKeyboard(UIKBTree *keyboard, NSString *name) {
 
 %group iOS6
 
-- (UIKBTree *)keyboardWithName: (NSString *)name {
+- (UIKBTree *)keyboardWithName:(NSString *)name {
     UIKBTree *keyboard = %orig;
     modifyKeyboard(keyboard, name);
     return keyboard;

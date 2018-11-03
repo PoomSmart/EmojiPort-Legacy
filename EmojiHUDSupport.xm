@@ -59,7 +59,7 @@ void clearTimer() {
 
 %hook UIKeyboardEmojiCategoryBar
 
-- (void)touchesBegan: (id)arg1 withEvent: (id)arg2 {
+- (void)touchesBegan:(id)arg1 withEvent:(id)arg2 {
     [EmojiHUD.sharedInstance hide];
     %orig;
 }

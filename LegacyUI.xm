@@ -64,7 +64,7 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
     NSInteger orientation = [[UIApplication sharedApplication] _frontMostAppOrientation];
     if (!IS_IPAD && ((UIKBKeyboardDefaultLandscapeWidth() > 480.0) || (orientation == 3 || orientation == 4)))
         additionalDivider = 1;
-    NSUInteger unselectedImagesCount = [MSHookIvar<NSArray *>(self, "_unselectedImages")count];
+    NSUInteger unselectedImagesCount = [MSHookIvar<NSArray *>(self, "_unselectedImages") count];
     MSHookIvar<NSInteger>(self, "_total") = unselectedImagesCount;
     MSHookIvar<NSInteger>(self, "_dividerTotal") = unselectedImagesCount + additionalDivider;
     MSHookIvar<NSMutableArray *>(self, "_segmentViews") = [[NSMutableArray alloc] initWithCapacity:MSHookIvar<NSInteger>(self, "_total")];
@@ -89,14 +89,14 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
             [dividerImageView release];
         } while (++j - 1 < dividerCount);
     }
-    [self updateSegmentAndDividers:MSHookIvar < int > (self, "_selected")];
+    [self updateSegmentAndDividers:MSHookIvar<int>(self, "_selected")];
 }
 
 %end
 
 %hook UIKeyboardEmojiGraphics
 
-- (UIImage *)categoryRecentsGenerator: (id)pressed {
+- (UIImage *)categoryRecentsGenerator:(id)pressed {
     return [self categoryWithSymbol:@"🕘" pressed:pressed];
 }
 
@@ -121,17 +121,17 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
 }
 
 %new
-- (UIImage *)categoryActivityGenerator: (id)pressed {
+- (UIImage *)categoryActivityGenerator:(id)pressed {
     return [self categoryWithSymbol:@"⚽️" pressed:pressed];
 }
 
 %new
-- (UIImage *)categoryFoodAndDrinkGenerator: (id)pressed {
+- (UIImage *)categoryFoodAndDrinkGenerator:(id)pressed {
     return [self categoryWithSymbol:@"🍔" pressed:pressed];
 }
 
 %new
-- (UIImage *)categoryFlagsGenerator: (id)pressed {
+- (UIImage *)categoryFlagsGenerator:(id)pressed {
     return [self categoryWithSymbol:@"🏳" pressed:pressed];
 }
 

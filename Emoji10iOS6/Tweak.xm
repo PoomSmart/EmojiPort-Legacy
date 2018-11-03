@@ -76,7 +76,7 @@ void fixEmojiGlyph(UIKeyboardEmoji *emoji) {
 
 %hook UIKeyboardEmojiCategoryPicker
 
-- (NSString *)symbolForRow: (NSInteger)row {
+- (NSString *)symbolForRow:(NSInteger)row {
     return ((UIKeyboardEmojiCategory *)[NSClassFromString(@"UIKeyboardEmojiCategory") categoryForType:row]).displaySymbol;
 }
 
@@ -179,7 +179,7 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
 }
 
 %new
-+ (BOOL)emojiString: (NSString *)emojiString inGroup: (NSArray <NSString *> *)group {
++ (BOOL)emojiString:(NSString *)emojiString inGroup:(NSArray <NSString *> *)group {
     return [PSEmojiUtilities emojiString:emojiString inGroup:group];
 }
 
