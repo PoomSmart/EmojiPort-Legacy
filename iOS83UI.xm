@@ -28,8 +28,8 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
             self._mycategoryLabel.font = [UIFont boldSystemFontOfSize:fontSize];
         }
         self._mycategoryLabel.backgroundColor = UIColor.clearColor;
-        [self updateLabel: MSHookIvar < UIKeyboardEmojiCategory *> (self, "_category").categoryType];
-        [self addSubview: self._mycategoryLabel];
+        [self updateLabel:MSHookIvar<UIKeyboardEmojiCategory *>(self, "_category").categoryType];
+        [self addSubview:self._mycategoryLabel];
     }
 }
 
@@ -45,7 +45,7 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 
 - (void)setRenderConfig:(UIKBRenderConfig *)config {
     %orig;
-    self._mycategoryLabel.textColor = config.whiteText ? UIColor.whiteColor : [UIColor colorWithWhite:0.2 alpha: 1.0];
+    self._mycategoryLabel.textColor = config.whiteText ? UIColor.whiteColor : [UIColor colorWithWhite:0.2 alpha:1.0];
 }
 
 %end
@@ -63,17 +63,17 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 
 -(void)layoutRecents {
     %orig;
-    MSHookIvar < UILabel *> (self, "_categoryLabel").hidden = YES;
+    MSHookIvar<UILabel *>(self, "_categoryLabel").hidden = YES;
 }
 
 -(void)reloadForCategory:(UIKeyboardEmojiCategory *)category {
     %orig;
-    [self updateLabel: category.categoryType];
+    [self updateLabel:category.categoryType];
 }
 
 -(void)doLayout {
     %orig;
-    [self updateLabel: MSHookIvar < UIKeyboardEmojiCategory *> (self, "_category").categoryType];
+    [self updateLabel:MSHookIvar<UIKeyboardEmojiCategory *>(self, "_category").categoryType];
 }
 
 %end

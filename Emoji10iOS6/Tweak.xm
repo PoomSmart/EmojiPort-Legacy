@@ -193,4 +193,6 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
 %dtor {
     if (emojiFont)
         CFRelease(emojiFont);
+    if (_categories)
+        [_categories autorelease];
 }

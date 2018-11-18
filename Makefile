@@ -1,4 +1,4 @@
-PACKAGE_VERSION = 1.6.11
+PACKAGE_VERSION = 1.6.12
 
 ifeq ($(SIMULATOR),1)
 	TARGET = simulator:clang:latest:8.0
@@ -30,11 +30,11 @@ setup:: all
 	@cp -v $(THEOS_OBJ_DIR)/Emoji10iOS6.dylib /opt/simject
 	@cp -v $(PWD)/Emoji10iOS78.plist /opt/simject
 	@cp -v $(PWD)/Emoji10iOS6.plist /opt/simject
-	$(ECHO_NOTHING)find $(PWD)/Emoji10Legacy -name .DS_Store | xargs rm -rf$(ECHO_END)
+	$(ECHO_NOTHING)find $(PWD)/Emoji10Legacy -name .DS_Store -delete$(ECHO_END)
 	@sudo cp -vR $(PWD)/Emoji10Legacy $(PL_SIMULATOR_PLISTS_PATH)/
 else
 internal-stage::
 	$(ECHO_NOTHING)mkdir -p $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences$(ECHO_END)
 	$(ECHO_NOTHING)cp -R Emoji10Legacy $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences/Emoji10Legacy$(ECHO_END)
-	$(ECHO_NOTHING)find $(THEOS_STAGING_DIR) -name .DS_Store | xargs rm -rf$(ECHO_END)
+	$(ECHO_NOTHING)find $(THEOS_STAGING_DIR) -name .DS_Store -delete$(ECHO_END)
 endif

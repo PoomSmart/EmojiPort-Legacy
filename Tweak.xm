@@ -3,7 +3,7 @@
 #import "../PS.h"
 
 %ctor {
-    if (isTarget(TargetTypeGUINoExtension)) {
+    if (isTarget(TargetTypeApps)) {
         dlopen("/Library/MobileSubstrate/DynamicLibraries/EmojiLayout.dylib", RTLD_LAZY);
         dlopen("/Library/MobileSubstrate/DynamicLibraries/EmojiAttributesRun.dylib", RTLD_LAZY);
         if (isiOS7Up)
