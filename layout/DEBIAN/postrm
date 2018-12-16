@@ -14,5 +14,4 @@ if [ -d "/System/Library/Frameworks/GameController.framework" ];then
 	fi
 fi
 
-echo "IMPORTANT: If after uninstallation emojis don't display correctly, restore the original emoji font(s)."
-echo "Done."
+echo "IMPORTANT: If after uninstallation, emojis don't display correctly, restore the original emoji font(s)."
