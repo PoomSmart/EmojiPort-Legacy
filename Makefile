@@ -1,10 +1,11 @@
-PACKAGE_VERSION = 1.6.13-1
+PACKAGE_VERSION = 1.7
 
 ifeq ($(SIMULATOR),1)
 	TARGET = simulator:clang:latest:8.0
 	ARCHS = x86_64 i386
 else
 	TARGET = iphone:clang:latest:6.0
+	ARCHS = armv7 arm64
 endif
 
 include $(THEOS)/makefiles/common.mk
@@ -31,6 +32,7 @@ setup:: all
 	@cp -v $(PWD)/Emoji10iOS78.plist /opt/simject
 	@cp -v $(PWD)/Emoji10iOS6.plist /opt/simject
 	$(ECHO_NOTHING)find $(PWD)/Emoji10Legacy -name .DS_Store -delete$(ECHO_END)
+	@sudo mkdir -p $(PL_SIMULATOR_PLISTS_PATH)
 	@sudo cp -vR $(PWD)/Emoji10Legacy $(PL_SIMULATOR_PLISTS_PATH)/
 else
 internal-stage::

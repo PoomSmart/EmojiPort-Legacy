@@ -2,7 +2,7 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreText/CoreText.h>
 #import "../EmojiHUD.h"
-#import "../Header.h"
+#import "../Global.h"
 
 CTFontRef emojiFont;
 

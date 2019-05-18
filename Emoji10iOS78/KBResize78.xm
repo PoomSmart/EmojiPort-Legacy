@@ -1,7 +1,6 @@
-#define NO_EXTRA_ICONS
 #import "../../EmojiLibrary/Header.h"
 #import "../../EmojiLayout/PSEmojiLayout.h"
-#import "../Header.h"
+#import "../Global.h"
 #import <UIKit/UIKBRenderTraits.h>
 #import <UIKit/UIKBScreenTraits.h>
 #import <UIKit/UIKeyboardImpl.h>
@@ -11,7 +10,6 @@
 extern "C" NSString *UIKeyboardGetCurrentInputMode();
 NSString *(*UIKeyboardGetKBStarName8)(NSString *name, UIKBScreenTraits *traits, NSInteger type, NSInteger bias);
 NSString *(*UIKeyboardGetKBStarName7)(NSString *name, UIKBScreenTraits *traits, NSInteger type);
-NSArray <NSString *> *extraIcons();
 
 void aHook(UIKeyboardEmojiCategoryBar *self, UIKBTree *key) {
     UIKBTree *_key = MSHookIvar<UIKBTree *>(self, "m_key");
@@ -30,13 +28,9 @@ void aHook(UIKeyboardEmojiCategoryBar *self, UIKBTree *key) {
         }
     } while (++index < count);
     [_key.subtrees addObjectsFromArray:keys];
-    key = _key;
 }
 
-%hook UIKBRenderFactoryEmoji_iPhone
-
-- (UIKBRenderTraits *)_traitsForKey:(UIKBTree *)key onKeyplane:(UIKBTree *)keyplane {
-    UIKBRenderTraits *traits = %orig;
+void hookTraits(UIKBRenderTraits *traits, UIKBTree *key, UIKBTree *keyplane) {
     if (traits) {
         NSString *keyName = key.name;
         NSString *keyplaneName = keyplane.name;
@@ -92,6 +86,23 @@ void aHook(UIKeyboardEmojiCategoryBar *self, UIKBTree *key) {
             }
         }
     }
+}
+
+%hook UIKBRenderFactoryEmoji_iPhone
+
+- (UIKBRenderTraits *)_traitsForKey:(UIKBTree *)key onKeyplane:(UIKBTree *)keyplane {
+    UIKBRenderTraits *traits = %orig;
+    hookTraits(traits, key, keyplane);
+    return traits;
+}
+
+%end
+
+%hook UIKBRenderFactoryEmoji_iPad
+
+- (UIKBRenderTraits *)_traitsForKey:(UIKBTree *)key onKeyplane:(UIKBTree *)keyplane {
+    UIKBRenderTraits *traits = %orig;
+    hookTraits(traits, key, keyplane);
     return traits;
 }
 
@@ -101,6 +112,8 @@ void aHook(UIKeyboardEmojiCategoryBar *self, UIKBTree *key) {
 
 %new
 - (void)emoji83_positionFixForKeyplane:(UIKBTree *)keyplane key:(UIKBTree *)key {
+    if (IS_IPAD && [keyplane isSplit])
+        return;
     NSString *keyName = key.name;
     NSString *keyplaneName = keyplane.name;
     if (isTargetKey(keyName) && [keyplaneName rangeOfString:@"Emoji"].location != NSNotFound) {

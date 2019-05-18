@@ -1,5 +1,3 @@
-#define NO_EXTRA_ICONS
-#import "Header.h"
 #import "../EmojiLibrary/Header.h"
 #import "../PSHeader/Misc.h"
 #import <UIKit/UIKeyboardImpl.h>

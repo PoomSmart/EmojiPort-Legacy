@@ -1,12 +1,17 @@
 #import "../EmojiLibrary/Header.h"
 #import "../PSHeader/Misc.h"
 #import <UIKit/UIApplication+Private.h>
+#import <UIKit/UIKeyboardImpl.h>
 
 extern NSString *UIKBEmojiDivider;
 extern NSString *UIKBEmojiDarkDivider;
 extern NSString *UIKBEmojiSelectedDivider;
 
 CGFloat (*UIKBKeyboardDefaultLandscapeWidth)();
+
+static NSString *icons[] = { 
+    @"🕘", @"😀", @"🐻", @"🌇", @"💡", @"🔣", @"⚽️", @"🍔", @"🏳"
+};
 
 UIImage *egImage(CGRect frame, NSString *imageName, BOOL pressed) {
     return [NSClassFromString(@"UIKeyboardEmojiGraphics") imageWithRect:frame name:imageName pressed:pressed];
@@ -97,42 +102,53 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
 %hook UIKeyboardEmojiGraphics
 
 - (UIImage *)categoryRecentsGenerator:(id)pressed {
-    return [self categoryWithSymbol:@"🕘" pressed:pressed];
+    return [self categoryWithSymbol:icons[0] pressed:pressed];
 }
 
 - (UIImage *)categoryPeopleGenerator:(id)pressed {
-    return [self categoryWithSymbol:@"😀" pressed:pressed];
+    return [self categoryWithSymbol:icons[1] pressed:pressed];
 }
 
 - (UIImage *)categoryNatureGenerator:(id)pressed {
-    return [self categoryWithSymbol:@"🐻" pressed:pressed];
+    return [self categoryWithSymbol:icons[2] pressed:pressed];
 }
 
 - (UIImage *)categoryPlacesGenerator:(id)pressed {
-    return [self categoryWithSymbol:@"🌇" pressed:pressed];
+    return [self categoryWithSymbol:icons[3] pressed:pressed];
 }
 
 - (UIImage *)categoryObjectsGenerator:(id)pressed {
-    return [self categoryWithSymbol:@"💡" pressed:pressed];
+    return [self categoryWithSymbol:icons[4] pressed:pressed];
 }
 
 - (UIImage *)categorySymbolsGenerator:(id)pressed {
-    return [self categoryWithSymbol:@"🔣" pressed:pressed];
+    return [self categoryWithSymbol:icons[5] pressed:pressed];
 }
 
 %new
 - (UIImage *)categoryActivityGenerator:(id)pressed {
-    return [self categoryWithSymbol:@"⚽️" pressed:pressed];
+    return [self categoryWithSymbol:icons[6] pressed:pressed];
 }
 
 %new
 - (UIImage *)categoryFoodAndDrinkGenerator:(id)pressed {
-    return [self categoryWithSymbol:@"🍔" pressed:pressed];
+    return [self categoryWithSymbol:icons[7] pressed:pressed];
 }
 
 %new
 - (UIImage *)categoryFlagsGenerator:(id)pressed {
-    return [self categoryWithSymbol:@"🏳" pressed:pressed];
+    return [self categoryWithSymbol:icons[8] pressed:pressed];
+}
+
+%end
+
+%hook UIKeyboardEmojiCategoryController
+
++ (Class)classForCategoryControl {
+    if ([%c(UIKeyboardImpl) isSplit])
+        return %c(UIKeyboardEmojiSplitCategoryPicker);
+    Class clazz = %orig;
+    return clazz == %c(UIKeyboardEmojiCategoryBar_iPad) ? %c(UIKeyboardEmojiCategoryBar_iPhone) : clazz;
 }
 
 %end
