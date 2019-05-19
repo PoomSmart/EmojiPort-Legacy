@@ -74,18 +74,6 @@ void fixEmojiGlyph(UIKeyboardEmoji *emoji) {
 
 %end
 
-%hook UIKeyboardEmojiCategoryPicker
-
-- (NSString *)symbolForRow:(NSInteger)row {
-    return ((UIKeyboardEmojiCategory *)[NSClassFromString(@"UIKeyboardEmojiCategory") categoryForType:row]).displaySymbol;
-}
-
-- (NSString *)titleForRow:(NSInteger)row {
-    return ((UIKeyboardEmojiCategory *)[NSClassFromString(@"UIKeyboardEmojiCategory") categoryForType:row]).displayName;
-}
-
-%end
-
 %hook UIKeyboardEmojiCategory
 
 static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;

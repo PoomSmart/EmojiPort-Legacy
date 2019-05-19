@@ -10,7 +10,7 @@ include $(THEOS)/makefiles/common.mk
 
 LIBRARY_NAME = Emoji10iOS6
 Emoji10iOS6_INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries/Emoji10Legacy
-Emoji10iOS6_FILES = ../EmojiHUD.mm ../EmojiHUDSupport.xm ../Global.xm ../LegacyUI.xm ../iOS83UI.xm ../KBResizeLegacy.xm Tweak.xm
+Emoji10iOS6_FILES = ../EmojiHUD.mm ../EmojiHUDSupport.xm ../Global.xm ../EmojiPicker.xm ../LegacyUI.xm ../iOS83UI.xm ../KBResizeLegacy.xm Tweak.xm
 Emoji10iOS6_FRAMEWORKS = UIKit CoreGraphics CoreFoundation CoreText
 Emoji10iOS6_EXTRA_FRAMEWORKS = CydiaSubstrate
 Emoji10iOS6_LIBRARIES = EmojiLibrary

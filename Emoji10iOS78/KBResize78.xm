@@ -249,11 +249,9 @@ CGSize hookSize(CGSize size) {
     if (isiOS8Up) {
         UIKeyboardGetKBStarName8 = (NSString *(*)(NSString *, UIKBScreenTraits *, NSInteger, NSInteger))MSFindSymbol(ref, "_UIKeyboardGetKBStarName");
         %init(iOS8);
-    } else {
-        if (isiOS71Up) {
-            UIKeyboardGetKBStarName7 = (NSString *(*)(NSString *, UIKBScreenTraits *, NSInteger))MSFindSymbol(ref, "_UIKeyboardGetKBStarName");
-            %init(iOS71);
-        }
+    } else if (isiOS71Up) {
+        UIKeyboardGetKBStarName7 = (NSString *(*)(NSString *, UIKBScreenTraits *, NSInteger))MSFindSymbol(ref, "_UIKeyboardGetKBStarName");
+        %init(iOS71);
     }
     %init;
 }

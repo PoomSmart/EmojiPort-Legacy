@@ -47,16 +47,14 @@ BOOL isEmojiInput() {
 
 %end
 
-void modifyScroll(UIKBShape *shape, CGFloat height, BOOL padded) {
+void modifyScroll(UIKBShape *shape, CGFloat height) {
     shape.frame = CGRectMake(shape.frame.origin.x, shape.frame.origin.y, shape.frame.size.width, height);
-    if (padded)
-        shape.paddedFrame = CGRectMake(shape.paddedFrame.origin.x, shape.paddedFrame.origin.y, shape.paddedFrame.size.width, height);
+    shape.paddedFrame = CGRectMake(shape.paddedFrame.origin.x, shape.paddedFrame.origin.y, shape.paddedFrame.size.width, height);
 }
 
-void modifyBar(UIKBShape *shape, CGFloat scrollViewHeight, CGFloat barHeight, BOOL padded) {
+void modifyBar(UIKBShape *shape, CGFloat scrollViewHeight, CGFloat barHeight) {
     shape.frame = CGRectMake(shape.frame.origin.x, scrollViewHeight, shape.frame.size.width, barHeight);
-    if (padded)
-        shape.paddedFrame = CGRectMake(shape.paddedFrame.origin.x, scrollViewHeight, shape.paddedFrame.size.width, barHeight);
+    shape.paddedFrame = CGRectMake(shape.paddedFrame.origin.x, scrollViewHeight, shape.paddedFrame.size.width, barHeight);
 }
 
 void modifyKeyboard(UIKBTree *keyboard, NSString *name) {
@@ -72,19 +70,19 @@ void modifyKeyboard(UIKBTree *keyboard, NSString *name) {
         UIKBTree *Emoji_InputView_Keys_GeometrySet = Emoji_InputView_Keylayout.subtrees[1];
         UIKBTree *Emoji_InputView_Geometry_List = Emoji_InputView_Keys_GeometrySet.subtrees[0];
         UIKBShape *Emoji_InputView_Geometry_List_shape = Emoji_InputView_Geometry_List.subtrees[0];
-        modifyScroll(Emoji_InputView_Geometry_List_shape, scrollViewHeight, YES);
+        modifyScroll(Emoji_InputView_Geometry_List_shape, scrollViewHeight);
         UIKBTree *Emoji_Category_Control_Keylayout = subtree.subtrees[1];
         UIKBTree *Emoji_Category_Control_Keys_GeometrySet = Emoji_Category_Control_Keylayout.subtrees[1];
         UIKBTree *Emoji_Category_Control_Geometry_List = Emoji_Category_Control_Keys_GeometrySet.subtrees[0];
         UIKBShape *Emoji_Category_Control_Geometry_List_shape = Emoji_Category_Control_Geometry_List.subtrees[0];
-        modifyBar(Emoji_Category_Control_Geometry_List_shape, scrollViewHeight, barHeight, YES);
+        modifyBar(Emoji_Category_Control_Geometry_List_shape, scrollViewHeight, barHeight);
         UIKBTree *Emoji_Control_Keylayout = subtree.subtrees[2];
         UIKBTree *Emoji_Control_Keys_GeometrySet = Emoji_Control_Keylayout.subtrees[1];
         UIKBTree *Emoji_Control_Geometry_List = Emoji_Control_Keys_GeometrySet.subtrees[0];
         UIKBShape *Emoji_Control_Geometry_List_shape1 = Emoji_Control_Geometry_List.subtrees[0];
         UIKBShape *Emoji_Control_Geometry_List_shape2 = Emoji_Control_Geometry_List.subtrees[1];
-        modifyBar(Emoji_Control_Geometry_List_shape1, scrollViewHeight, barHeight, YES);
-        modifyBar(Emoji_Control_Geometry_List_shape2, scrollViewHeight, barHeight, YES);
+        modifyBar(Emoji_Control_Geometry_List_shape1, scrollViewHeight, barHeight);
+        modifyBar(Emoji_Control_Geometry_List_shape2, scrollViewHeight, barHeight);
     }
 }
 

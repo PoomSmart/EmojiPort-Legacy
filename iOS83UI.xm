@@ -31,9 +31,31 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
     }
 }
 
-%group iOS7Up
-
 %hook UIKeyboardEmojiScrollView
+
+%property(retain, nonatomic) UILabel *_mycategoryLabel;
+
+%new
+- (void)updateLabel:(NSInteger)categoryType {
+    self._mycategoryLabel.text = [[[NSClassFromString(@"UIKeyboardEmojiCategory") categoryForType:categoryType] displayName] uppercaseStringWithLocale:[NSLocale currentLocale]];
+}
+
+- (void)layoutRecents {
+    %orig;
+    MSHookIvar<UILabel *>(self, "_categoryLabel").hidden = YES;
+}
+
+- (void)reloadForCategory:(UIKeyboardEmojiCategory *)category {
+    %orig;
+    [self updateLabel:category.categoryType];
+}
+
+- (void)doLayout {
+    %orig;
+    [self updateLabel:MSHookIvar<UIKeyboardEmojiCategory *>(self, "_category").categoryType];
+}
+
+%group iOS7Up
 
 - (id)initWithFrame:(CGRect)frame keyplane:(UIKBTree *)keyplane key:(UIKBTree *)key {
     self = %orig;
@@ -47,32 +69,6 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 }
 
 %end
-
-%end
-
-%hook UIKeyboardEmojiScrollView
-
-%property(retain, nonatomic) UILabel *_mycategoryLabel;
-
-%new
-- (void)updateLabel:(NSInteger)categoryType {
-    self._mycategoryLabel.text = [[[NSClassFromString(@"UIKeyboardEmojiCategory") categoryForType:categoryType] displayName] uppercaseStringWithLocale:[NSLocale currentLocale]];
-}
-
--(void)layoutRecents {
-    %orig;
-    MSHookIvar<UILabel *>(self, "_categoryLabel").hidden = YES;
-}
-
--(void)reloadForCategory:(UIKeyboardEmojiCategory *)category {
-    %orig;
-    [self updateLabel:category.categoryType];
-}
-
--(void)doLayout {
-    %orig;
-    [self updateLabel:MSHookIvar<UIKeyboardEmojiCategory *>(self, "_category").categoryType];
-}
 
 %end
 
