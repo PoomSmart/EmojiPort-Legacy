@@ -46,9 +46,9 @@ void hookTraits(UIKBRenderTraits *traits, UIKBTree *key, UIKBTree *keyplane) {
                 CGFloat barWidth = barFrame.size.width;
                 CGFloat correctGeometryWidth = barWidth / count;
                 CGFloat startX = _geometries[0].frame.origin.x;
-                for (NSUInteger index = 0; index < count; index++) {
+                for (NSUInteger index = 0; index < count; ++index) {
                     UIKBRenderGeometry *geometry = _geometries[index];
-                    CGFloat correctGeometryPosX = startX + correctGeometryWidth*index;
+                    CGFloat correctGeometryPosX = startX + correctGeometryWidth * index;
                     paddedDeltaPosX = geometry.paddedFrame.origin.x - geometry.frame.origin.x;
                     paddedDeltaPosY = geometry.paddedFrame.origin.y - geometry.frame.origin.y;
                     paddedDeltaWidth = geometry.paddedFrame.size.width - geometry.frame.size.width;

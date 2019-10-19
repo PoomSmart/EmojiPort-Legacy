@@ -62,7 +62,7 @@
 %end
 
 %ctor {
-    id r = [NSDictionary dictionaryWithContentsOfFile:realPrefPath(@"com.PS.Emoji10Legacy")][@"enabled"];
+    id r = [NSDictionary dictionaryWithContentsOfFile:realPrefPath(@"com.PS.EmojiPortLegacy")][@"enabled"];
     BOOL enabled = r ? [r boolValue] : YES;
     if (enabled) {
         %init;

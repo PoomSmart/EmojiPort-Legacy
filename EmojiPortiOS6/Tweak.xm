@@ -8,6 +8,7 @@ CTFontRef emojiFont;
 
 BOOL allowGlyphSet = YES;
 BOOL fromTweak = NO;
+NSDictionary *emojiFontAttributes = nil;
 
 void fixEmojiGlyph(UIKeyboardEmoji *emoji) {
     if (emoji == nil)
@@ -18,20 +19,14 @@ void fixEmojiGlyph(UIKeyboardEmoji *emoji) {
         return;
     fromTweak = YES;
     if (stringLength >= 4) {
-        NSAttributedString *aStr = [[[NSAttributedString alloc] initWithString:emojiString attributes:@{ (NSString *)kCTFontAttributeName : (id)emojiFont }] autorelease];
+        NSAttributedString *aStr = [[[NSAttributedString alloc] initWithString:emojiString attributes:emojiFontAttributes] autorelease];
         CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)aStr);
         if (line) {
             CFArrayRef glyphRuns = CTLineGetGlyphRuns(line);
             if (glyphRuns) {
                 CTRunRef glyphRun = (CTRunRef)CFArrayGetValueAtIndex(glyphRuns, 0);
                 if (glyphRun) {
-                    NSUInteger glyphCount = CTRunGetGlyphCount(glyphRun);
                     const CGGlyph *glyphs2 = CTRunGetGlyphsPtr(glyphRun);
-                    if (glyphs2 == NULL) {
-                        size_t glyphsBufferSize = sizeof(CGGlyph) * glyphCount;
-                        CGGlyph *glyphsBuffer = (CGGlyph *)malloc(glyphsBufferSize);
-                        CTRunGetGlyphs(glyphRun, CFRangeMake(0, 0), glyphsBuffer);
-                    }
                     if (glyphs2)
                         emoji.glyph = glyphs2[0];
                     CFRelease(glyphRun);
@@ -40,13 +35,11 @@ void fixEmojiGlyph(UIKeyboardEmoji *emoji) {
             }
         }
     } else {
-        unichar characters[16] = {
-            0
-        };
+        unichar characters[16] = { 0 };
         [emojiString getCharacters:characters range:NSMakeRange(0, stringLength)];
         size_t length = 0;
         while (characters[length])
-            length++;
+            ++length;
         CGGlyph glyphs[length];
         if (CTFontGetGlyphsForCharacters(emojiFont, characters, glyphs, length)) {
             CGGlyph g = emoji.glyph = glyphs[0];
@@ -175,12 +168,15 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
 
 %ctor {
     emojiFont = CTFontCreateWithName(CFSTR("AppleColorEmoji"), 12.0, NULL);
+    emojiFontAttributes = [@{ (NSString *)kCTFontAttributeName : (id)emojiFont } retain];
     %init;
 }
 
 %dtor {
     if (emojiFont)
         CFRelease(emojiFont);
+    if (emojiFontAttributes)
+        [emojiFontAttributes autorelease];
     if (_categories)
         [_categories autorelease];
 }

@@ -107,16 +107,9 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 #endif
 
 %ctor {
-    id r = [NSDictionary dictionaryWithContentsOfFile:realPrefPath(@"com.PS.Emoji10Legacy")][@"enabled"];
+    id r = [NSDictionary dictionaryWithContentsOfFile:realPrefPath(@"com.PS.EmojiPortLegacy")][@"enabled"];
     BOOL enabled = r ? [r boolValue] : YES;
     if (enabled) {
-#if TARGET_OS_SIMULATOR
-        dlopen("/opt/simject/EmojiLayout.dylib", RTLD_LAZY);
-        dlopen("/opt/simject/EmojiLocalization.dylib", RTLD_LAZY);
-#else
-        dlopen("/Library/MobileSubstrate/DynamicLibraries/EmojiLayout.dylib", RTLD_LAZY);
-        dlopen("/Library/MobileSubstrate/DynamicLibraries/EmojiLocalization.dylib", RTLD_LAZY);
-#endif
         %init;
         if (isiOS7Up) {
             %init(iOS7Up);
