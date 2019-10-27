@@ -12,10 +12,10 @@ if [ -d "/System/Library/Frameworks/GameController.framework" ];then
 	else
 		echo "Could not find the preferences."
 	fi
-	rm -f /Library/MobileSubstrate/DynamicLibraries/EmojiPortLegacy/EmojiPortiOS6.dylib
+	rm -f /Library/MobileSubstrate/DynamicLibraries/EmojiPort/EmojiPortiOS6.dylib
 else
 	# iOS 6
-	rm -f /Library/MobileSubstrate/DynamicLibraries/EmojiPortLegacy/EmojiPortiOS78.dylib
+	rm -f /Library/MobileSubstrate/DynamicLibraries/EmojiPort/EmojiPortiOS78.dylib
 fi
 
 echo "IMPORTANT: You MUST install latest emoji font in order to display emoji on your devices correctly."
