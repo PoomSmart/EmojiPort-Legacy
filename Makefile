@@ -1,4 +1,4 @@
-PACKAGE_VERSION = 1.7.2~b2
+PACKAGE_VERSION = 1.7.2~b3
 
 ifeq ($(SIMULATOR),1)
 	TARGET = simulator:clang:latest:8.0
@@ -21,7 +21,7 @@ endif
 SUBPROJECTS = EmojiPortiOS6 EmojiPortiOS78
 
 include $(THEOS_MAKE_PATH)/aggregate.mk
-include ../preferenceloader/locatesim.mk
+include ../preferenceloader-sim/locatesim.mk
 
 ifeq ($(SIMULATOR),1)
 setup:: all
