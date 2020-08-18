@@ -1,11 +1,18 @@
-{
-	CoreFoundationVersion = (
-		793.00,
-		1144.17
-	);
-	Filter = {
-		Bundles = (
-			"com.apple.UIKit"
-		);
-	};
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Filter</key>
+	<dict>
+		<key>Bundles</key>
+		<array>
+			<string>com.apple.UIKit</string>
+		</array>
+		<key>CoreFoundationVersion</key>
+		<array>
+			<real>793</real>
+			<real>1144.17</real>
+		</array>
+	</dict>
+</dict>
+</plist>
