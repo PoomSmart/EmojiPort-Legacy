@@ -1,11 +1,14 @@
 #import "../../EmojiLibrary/Header.h"
 #import "../../EmojiLayout/PSEmojiLayout.h"
+#import "../../PSHeader/Misc.h"
 #import "../Global.h"
 #import <UIKit/UIKBRenderTraits.h>
 #import <UIKit/UIKBScreenTraits.h>
 #import <UIKit/UIKeyboardImpl.h>
 #import <UIKit/UIKeyboard.h>
+#import <theos/IOSMacros.h>
 #import <substrate.h>
+#import <version.h>
 
 extern "C" NSString *UIKeyboardGetCurrentInputMode();
 NSString *(*UIKeyboardGetKBStarName8)(NSString *name, UIKBScreenTraits *traits, NSInteger type, NSInteger bias);
@@ -246,10 +249,10 @@ CGSize hookSize(CGSize size) {
 
 %ctor {
     MSImageRef ref = MSGetImageByName(realPath2(@"/System/Library/Frameworks/UIKit.framework/UIKit"));
-    if (isiOS8Up) {
+    if (IS_IOS_OR_NEWER(iOS_8_0)) {
         UIKeyboardGetKBStarName8 = (NSString *(*)(NSString *, UIKBScreenTraits *, NSInteger, NSInteger))MSFindSymbol(ref, "_UIKeyboardGetKBStarName");
         %init(iOS8);
-    } else if (isiOS71Up) {
+    } else if (IS_IOS_OR_NEWER(iOS_7_1)) {
         UIKeyboardGetKBStarName7 = (NSString *(*)(NSString *, UIKBScreenTraits *, NSInteger))MSFindSymbol(ref, "_UIKeyboardGetKBStarName");
         %init(iOS71);
     }

@@ -1,5 +1,7 @@
-#ifndef HEADER_H
-#define HEADER_H
+#ifndef GLOBAL_HEADER_H
+#define GLOBAL_HEADER_H
+
+#import <Foundation/Foundation.h>
 
 NSArray <NSString *> *extraIcons();
 

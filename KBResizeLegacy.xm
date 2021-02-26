@@ -3,6 +3,8 @@
 #import "../PSHeader/Misc.h"
 #import <UIKit/UIKeyboardImpl.h>
 #import <UIKit/UIApplication+Private.h>
+#import <version.h>
+#import <dlfcn.h>
 
 extern "C" NSString *UIKeyboardGetCurrentInputMode();
 
@@ -111,11 +113,11 @@ void modifyKeyboard(UIKBTree *keyboard, NSString *name) {
 %end
 
 %ctor {
-    if (isiOS71Up)
+    if (IS_IOS_OR_NEWER(iOS_7_1))
         return;
-    dlopen(realPath2(@"/System/Library/PrivateFrameworks/TextInput.framework/TextInput"), RTLD_LAZY);
+    dlopen(realPath2(@"/System/Library/PrivateFrameworks/TextInput.framework/TextInput"), RTLD_NOW);
     %init;
-    if (isiOS70) {
+    if (IS_IOS_OR_NEWER(iOS_7_0)) {
         %init(iOS70);
     } else {
         %init(iOS6);

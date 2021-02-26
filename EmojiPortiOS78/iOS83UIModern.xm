@@ -1,4 +1,5 @@
 #import "../../EmojiLibrary/Header.h"
+#import "../../PSHeader/Misc.h"
 #import <UIKit/UIKeyboardInputMode.h>
 #import <UIKit/UIKeyboardInputModeController.h>
 #import <UIKit/UICompatibilityInputViewController.h>
@@ -57,7 +58,7 @@
     } else if (key.displayType == 0x24)
         traits.backgroundGradient = nil;
     return traits;
-   }
+}
 
 %end
 

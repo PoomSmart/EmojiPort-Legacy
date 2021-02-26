@@ -1,7 +1,9 @@
 #import "../EmojiLibrary/Header.h"
 #import "../PSHeader/Misc.h"
 #import <UIKit/UIKeyboardImpl.h>
+#import <theos/IOSMacros.h>
 #import <substrate.h>
+#import <version.h>
 
 @interface UIKeyboardEmojiScrollView (iOS83UI)
 @property(retain, nonatomic) UILabel *_mycategoryLabel;
@@ -18,10 +20,10 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
         self._mycategoryLabel = [[UILabel alloc] initWithFrame:CGRectMake(margin.x, 0.0, frame.size.width / 2, LABEL_HEIGHT)];
         self._mycategoryLabel.alpha = 0.4;
         CGFloat fontSize = FONT_SIZE;
-        if (isiOS82Up)
+        if (IS_IOS_OR_NEWER(iOS_8_2))
             self._mycategoryLabel.font = [UIFont systemFontOfSize:fontSize weight:UIFontWeightSemibold];
         else {
-            if (isiOS6)
+            if (!IS_IOS_OR_NEWER(iOS_7_0))
                 fontSize -= 1.0;
             self._mycategoryLabel.font = [UIFont boldSystemFontOfSize:fontSize];
         }
@@ -111,7 +113,7 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
     BOOL enabled = r ? [r boolValue] : YES;
     if (enabled) {
         %init;
-        if (isiOS7Up) {
+        if (IS_IOS_OR_NEWER(iOS_7_0)) {
             %init(iOS7Up);
         }
 #if !__LP64__

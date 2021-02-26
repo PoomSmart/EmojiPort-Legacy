@@ -1,4 +1,5 @@
 #import "EmojiHUD.h"
+#import "../EmojiLibrary/PSEmojiUtilities.h"
 
 BOOL from;
 NSTimer *__showHUD;
@@ -29,7 +30,8 @@ void clearTimer() {
 - (void)setOnDisplay:(UIKeyboardEmojiView *)emojiView {
     %orig;
     if (emojiView) {
-        if (!emojiView.emoji.supportsSkin)
+        BOOL supportsSkin = emojiView.emoji.supportsSkin;
+        if (!supportsSkin)
             return;
         _emojiView = emojiView;
         if (!EmojiHUD.sharedInstance.showing) {
@@ -65,7 +67,3 @@ void clearTimer() {
 }
 
 %end
-
-%ctor {
-    %init;
-}

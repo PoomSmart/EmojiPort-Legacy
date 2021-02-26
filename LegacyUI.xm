@@ -2,6 +2,7 @@
 #import "../PSHeader/Misc.h"
 #import <UIKit/UIApplication+Private.h>
 #import <UIKit/UIKeyboardImpl.h>
+#import <theos/IOSMacros.h>
 
 extern NSString *UIKBEmojiDivider;
 extern NSString *UIKBEmojiDarkDivider;

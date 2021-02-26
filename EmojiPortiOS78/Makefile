@@ -10,7 +10,7 @@ include $(THEOS)/makefiles/common.mk
 
 LIBRARY_NAME = EmojiPortiOS78
 EmojiPortiOS78_INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries/EmojiPort
-EmojiPortiOS78_FILES = ../EmojiHUD.mm ../EmojiHUDSupport.xm ../Global.xm ../EmojiPicker.xm ../LegacyUI.xm ../iOS83UI.xm iOS83UIModern.xm KBResize78.xm ../KBResizeLegacy.xm Tweak.xm
+EmojiPortiOS78_FILES = ../EmojiHUD.mm ../EmojiHUDSupport.xm ../Global.xm ../EmojiPicker.xm ../LegacyUI.xm ../iOS83UI.xm iOS83UIModern.xm KBResize78.xm ../KBResizeLegacy.xm Tweak78.xm
 ifeq ($(SIMULATOR),1)
 	EmojiPortiOS78_FILES += NoKeyboardCache.xm
 endif

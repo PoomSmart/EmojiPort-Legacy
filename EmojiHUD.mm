@@ -1,21 +1,42 @@
 #import "EmojiHUD.h"
 #import "../EmojiLibrary/PSEmojiUtilities.h"
+#import "../EmojiLayout/PSEmojiLayout.h"
+#import <UIKit/UIKit.h>
 #import <UIKit/UIKeyboard.h>
+#import <theos/IOSMacros.h>
 #import <substrate.h>
+#import <HBLog.h>
+
+#define MAX_PER_ROW 5
 
 @implementation EmojiHUD
 
 @synthesize showing = _showing;
 
-+ (CGRect)hudFrame {
+- (void)calculateRect:(int)count {
     CGFloat width = IS_IPAD ? 300.0 : 260.0;
     CGFloat height = IS_IPAD ? 55.0 : 40.0;
+    if (count > MAX_PER_ROW) {
+#if __LP64__
+    height *= 1.2 * ceil((double)count / MAX_PER_ROW);
+#else
+    height *= 1.2 * ceilf((float)count / MAX_PER_ROW);
+#endif  
+    }
+    BOOL isPortrait = [SoftPSEmojiLayout isPortrait];
     CGRect bounds = UIScreen.mainScreen.bounds;
-    CGFloat x = (bounds.size.width - width) / 2;
-    CGFloat y = (bounds.size.height - height) / 2;
-    if (IS_IPAD && bounds.size.height > 768.0)
+    CGFloat screenWidth = bounds.size.width;
+    CGFloat screenHeight = bounds.size.height;
+    if (!isPortrait) {
+        CGFloat temp = screenWidth;
+        screenWidth = screenHeight;
+        screenHeight = temp;
+    }
+    CGFloat x = (screenWidth - width) / 2;
+    CGFloat y = (screenHeight - height) / 2;
+    if (IS_IPAD && screenHeight > 768.0)
         y += 140.0;
-    return CGRectMake(x, y, width, height);
+    self.frame = CGRectMake(x, y, width, height);
 }
 
 + (UIView *)hudWindow {
@@ -27,7 +48,6 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedHUD = [[self alloc] init];
-        sharedHUD.frame = [self hudFrame];
         sharedHUD.hidden = YES;
         sharedHUD.showing = NO;
         [[self hudWindow] addSubview:sharedHUD];
@@ -52,7 +72,7 @@
     self.showing = show;
     self.hidden = !show;
     if (show)
-        self.frame = [[self class] hudFrame];
+        [self calculateRect:0];
 }
 
 - (void)show {
@@ -71,23 +91,28 @@
     return [PSEmojiUtilities skinToneVariants:emojiString isSkin:YES];
 }
 
-- (UIKeyboardEmoji *)emojiFromVariant:(NSInteger)variant {
-    return [PSEmojiUtilities emojiWithString:[PSEmojiUtilities skinToneVariant:self->_emojiString skin:[PSEmojiUtilities skinModifiers][variant - 1]]];
+- (UIKeyboardEmoji *)emojiFromIndex:(NSInteger)index {
+    NSString *emojiString = index > MAX_PER_ROW
+        ? [PSEmojiUtilities skinToneVariants:self->_emojiString][index]
+        : [PSEmojiUtilities skinToneVariant:self->_emojiString skin:[PSEmojiUtilities skinModifiers][index - 1]];
+    return [PSEmojiUtilities emojiWithString:emojiString];
 }
 
-- (void)emojiUsedInVariant:(NSInteger)variant {
-    [self emojiUsed:[self emojiFromVariant:variant]];
+- (void)emojiUsedAtIndex:(NSInteger)index {
+    [self emojiUsed:[self emojiFromIndex:index]];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [[event allTouches] anyObject];
-    CGFloat vf = [touch locationInView:touch.view].x / (self.frame.size.width / 5.0);
+    CGPoint pos = [touch locationInView:touch.view];
+    CGFloat xPos = pos.x / (self.frame.size.width / MAX_PER_ROW);
+    CGFloat yPos = pos.y / self.frame.size.height;
 #if __LP64__
-    NSInteger variant = (NSInteger)ceil(vf);
+    NSInteger index = (NSInteger)ceil(xPos) + (MAX_PER_ROW * (NSInteger)floor(yPos * MAX_PER_ROW));
 #else
-    NSInteger variant = (NSInteger)ceilf(vf);
+    NSInteger index = (NSInteger)ceilf(xPos) + (MAX_PER_ROW * (NSInteger)floorf(yPos * MAX_PER_ROW));
 #endif
-    [self emojiUsedInVariant:variant];
+    [self emojiUsedAtIndex:index];
 }
 
 - (void)showWithEmojiView:(UIKeyboardEmojiView *)emojiView {
@@ -101,15 +126,24 @@
         CGFloat totalHeight = hudFrame.size.height;
         CGFloat emojiWidth = emojiView.frame.size.width;
         CGFloat emojiHeight = emojiView.frame.size.height;
-        CGRect frame = emojiView.frame;
-        CGFloat gap = (totalWidth - (5 * emojiWidth)) / 6;
-        frame = CGRectMake(gap, (totalHeight - emojiHeight) / 2, emojiWidth, emojiHeight);
+        CGFloat gapX = (totalWidth - (MAX_PER_ROW * emojiWidth)) / (MAX_PER_ROW + 1);
+        CGRect frame = CGRectMake(gapX, (totalHeight - emojiHeight) / 2, emojiWidth, emojiHeight);
         NSArray <NSString *> *variants = [self variantsForEmoji:emojiString];
+        [self calculateRect:variants.count];
+        int i = 1;
+        CGFloat ixPos = frame.origin.x;
+        CGFloat xPos = ixPos;
+        CGFloat yPos = frame.origin.y;
         for (NSString *variant in variants) {
             UIKeyboardEmojiView *diverse = [NSClassFromString(@"UIKeyboardEmojiView") emojiViewForEmoji:[PSEmojiUtilities emojiWithString:variant] withFrame:frame];
             [self addSubview:diverse];
             diverse.userInteractionEnabled = NO;
-            frame = CGRectMake(frame.origin.x + gap + emojiWidth, frame.origin.y, frame.size.width, frame.size.height);
+            if (i++ % MAX_PER_ROW == 0) {
+                xPos = ixPos;
+                yPos += emojiHeight + gapX;
+            } else
+                xPos += gapX + emojiWidth;
+            frame = CGRectMake(xPos, yPos, frame.size.width, frame.size.height);
         }
     }
 }
