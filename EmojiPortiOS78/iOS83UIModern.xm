@@ -1,16 +1,8 @@
 #import "../../EmojiLibrary/Header.h"
 #import "../../PSHeader/Misc.h"
-#import <UIKit/UIKeyboardInputMode.h>
-#import <UIKit/UIKeyboardInputModeController.h>
-#import <UIKit/UICompatibilityInputViewController.h>
-#import <UIKit/UIKBInputBackdropView.h>
 #import <UIKit/UIKBRenderConfig.h>
 #import <UIKit/UIKBRenderTraits.h>
 #import <UIKit/UIKBGradient.h>
-#import <UIKit/UIPeripheralHost.h>
-#import <UIKit/UIView+Private.h>
-#import <UIKit/UITextInputTraits+Private.h>
-#import <UIKit/UIResponder+Private.h>
 
 %hook _UIEmojiPageControl
 

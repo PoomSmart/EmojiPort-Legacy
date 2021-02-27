@@ -5,7 +5,6 @@
 #import <UIKit/UIKeyboard.h>
 #import <theos/IOSMacros.h>
 #import <substrate.h>
-#import <HBLog.h>
 
 #define MAX_PER_ROW 5
 
