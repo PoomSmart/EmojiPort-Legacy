@@ -5,6 +5,7 @@
 #import <UIKit/UIKeyboard.h>
 #import <theos/IOSMacros.h>
 #import <substrate.h>
+#import <version.h>
 
 #define MAX_PER_ROW 5
 
@@ -81,8 +82,11 @@
 - (void)emojiUsed:(UIKeyboardEmoji *)emoji {
     if (!emoji || !emoji.emojiString.length)
         return;
-    UIKeyboardEmojiInputController *controller = (UIKeyboardEmojiInputController *)[[NSClassFromString(@"UIKeyboardEmojiInputController") activeInputView] valueForKey:@"_inputController"];
-    [controller emojiUsed:emoji];
+    if (IS_IOS_OR_NEWER(iOS_6_0)) {
+        UIKeyboardEmojiInputController *controller = (UIKeyboardEmojiInputController *)[[NSClassFromString(@"UIKeyboardEmojiInputController") activeInputView] valueForKey:@"_inputController"];
+        [controller emojiUsed:emoji];
+    } else
+        [(UIKeyboardLayoutEmoji *)[NSClassFromString(@"UIKeyboardLayoutEmoji") emojiLayout] emojiSelected:emoji];
     [self hide];
 }
 
