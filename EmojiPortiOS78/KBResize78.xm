@@ -6,7 +6,6 @@
 #import <UIKit/UIKBScreenTraits.h>
 #import <UIKit/UIKeyboardImpl.h>
 #import <UIKit/UIKeyboard.h>
-#import <theos/IOSMacros.h>
 #import <substrate.h>
 #import <version.h>
 
@@ -115,7 +114,7 @@ void hookTraits(UIKBRenderTraits *traits, UIKBTree *key, UIKBTree *keyplane) {
 
 %new
 - (void)emoji83_positionFixForKeyplane:(UIKBTree *)keyplane key:(UIKBTree *)key {
-    if (IS_IPAD && [keyplane isSplit])
+    if ([keyplane isSplit])
         return;
     NSString *keyName = key.name;
     NSString *keyplaneName = keyplane.name;
@@ -233,7 +232,7 @@ CGSize hookSize(CGSize size) {
     [screenTraits setOrientationKey:[UIKeyboardImpl orientationKeyForOrientation:orientation]];
     NSString *name = UIKeyboardGetKBStarName7(UIKeyboardGetCurrentInputMode(), screenTraits, 0);
     UIKBTree *tree = [NSClassFromString(@"UIKeyboardLayoutStar") keyboardFromFactoryWithName:name screen:[UIKeyboardImpl keyboardScreen]];
-    if (tree && [name rangeOfString:@"Emoji"].location != NSNotFound) {
+    if (tree && ![tree isSplit] && [name rangeOfString:@"Emoji"].location != NSNotFound) {
         UIKBShape *shape = tree.shape;
         CGFloat height = [SoftPSEmojiLayout keyboardHeight:name];
         CGRect newFrame = CGRectMake(shape.frame.origin.x, shape.frame.origin.y, shape.frame.size.width, height);
