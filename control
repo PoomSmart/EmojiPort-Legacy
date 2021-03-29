@@ -1,6 +1,6 @@
 Package: com.ps.emojiportlegacy
 Name: EmojiPort (iOS 6.0-8.2)
-Depends: preferenceloader, firmware (>= 6.0), firmware (<< 8.3), com.ps.emojilayout (>= 1.1.17), com.ps.emojiattributes (>= 1.4.4~b1), com.ps.emojilocalization (>= 1.1), com.ps.emojilibrary (>= 1.2.2~b5), firmware (<< 7.0) | com.ps.emojiresources (>= 1.2)
+Depends: preferenceloader, firmware (>= 6.0), firmware (<< 8.3), com.ps.emojilayout (>= 1.1.21), com.ps.emojiattributes (>= 1.4.4~b1), com.ps.emojilocalization (>= 1.1), com.ps.emojilibrary (>= 1.2.2~b5), firmware (<< 7.0) | com.ps.emojiresources (>= 1.2)
 Conflicts: com.ps.emoji9legacy, com.ps.emoji10legacy
 Version: 1.0.0
 Architecture: iphoneos-arm

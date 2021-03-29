@@ -1,6 +1,7 @@
 #import "../EmojiLibrary/Header.h"
 #import "../EmojiLibrary/PSEmojiUtilities.h"
 #import <UIKit/UIKeyboardPreferencesController.h>
+#import <version.h>
 
 CGFloat scaleFactor = CATEGORIES_COUNT / 6.;
 
@@ -15,6 +16,8 @@ CGFloat scaleFactor = CATEGORIES_COUNT / 6.;
 }
 
 %end
+
+%group iOS7Up
 
 %hook UIKeyboardEmojiSplitCharacterPicker
 
@@ -45,3 +48,28 @@ CGFloat scaleFactor = CATEGORIES_COUNT / 6.;
 }
 
 %end
+
+%end
+
+%group iOS6
+
+%hook UIKeyboardEmojiCategoryPicker
+
+- (id)initWithFrame:(CGRect)frame keyboard:(id)keyboard key:(id)key state:(int)state {
+    CGRect newFrame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height * scaleFactor);
+    self = %orig(newFrame, keyboard, key, state);
+    return self;
+}
+
+%end
+
+%end
+
+%ctor {
+    %init;
+    if (IS_IOS_OR_NEWER(iOS_7_0)) {
+        %init(iOS7Up);
+    } else {
+        %init(iOS6);
+    }
+}

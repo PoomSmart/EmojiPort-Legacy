@@ -9,7 +9,8 @@
 extern "C" NSString *UIKeyboardGetCurrentInputMode();
 
 NSString *keyboardName() {
-    return [UIKeyboardImpl.activeInstance _layout].keyplane.name;
+    UIKeyboardLayoutStar *layout = [UIKeyboardImpl.activeInstance _layout];
+    return layout.keyplane.name;
 }
 
 BOOL isEmojiInput() {
@@ -81,16 +82,15 @@ void modifyKeyboard(UIKBTree *keyboard, NSString *name) {
         UIKBTree *Emoji_Control_Keylayout = subtree.subtrees[2];
         UIKBTree *Emoji_Control_Keys_GeometrySet = Emoji_Control_Keylayout.subtrees[1];
         UIKBTree *Emoji_Control_Geometry_List = Emoji_Control_Keys_GeometrySet.subtrees[0];
-        UIKBShape *Emoji_Control_Geometry_List_shape1 = Emoji_Control_Geometry_List.subtrees[0];
-        UIKBShape *Emoji_Control_Geometry_List_shape2 = Emoji_Control_Geometry_List.subtrees[1];
-        modifyBar(Emoji_Control_Geometry_List_shape1, scrollViewHeight, barHeight);
-        modifyBar(Emoji_Control_Geometry_List_shape2, scrollViewHeight, barHeight);
+        for (UIKBShape *shape in Emoji_Control_Geometry_List.subtrees) {
+            modifyBar(shape, scrollViewHeight, barHeight);
+        }
     }
 }
 
-%hook TIKeyboardFactory
-
 %group iOS70
+
+%hook TIKeyboardFactory
 
 - (UIKBTree *)keyboardWithName:(NSString *)name inCache:(id)cache {
     UIKBTree *keyboard = %orig;
@@ -100,12 +100,53 @@ void modifyKeyboard(UIKBTree *keyboard, NSString *name) {
 
 %end
 
+%end
+
 %group iOS6
+
+%hook TIKeyboardFactory
 
 - (UIKBTree *)keyboardWithName:(NSString *)name {
     UIKBTree *keyboard = %orig;
     modifyKeyboard(keyboard, name);
     return keyboard;
+}
+
+%end
+
+%hook UIKeyboardEmojiCategoryBar_iPad
+
+- (id)initWithFrame:(CGRect)frame keyboard:(UIKBTree *)keyboard key:(UIKBTree *)key state:(int)state {
+    UIKBShape *shape = key.shape;
+    if (shape) {
+        CGFloat height = [SoftPSEmojiLayout scrollViewHeight:keyboard.name];
+        CGFloat height2 = [SoftPSEmojiLayout barHeight:keyboard.name];
+        CGRect newFrame = CGRectMake(shape.frame.origin.x, height, shape.frame.size.width, height2);
+        shape.frame = newFrame;
+        key.shape = shape;
+        frame = CGRectMake(shape.frame.origin.x, height, shape.frame.size.width, height2);
+    }
+    self = %orig(frame, keyboard, key, state);
+    return self;
+}
+
+%end
+
+%hook UIKeyboardEmojiScrollView
+
+- (id)initWithFrame:(CGRect)frame keyboard:(UIKBTree *)keyboard key:(UIKBTree *)key state:(int)state {
+    NSString *keyboardName = keyboard.name;
+    if (key && [keyboardName rangeOfString:@"Emoji"].location != NSNotFound && [key.name isEqualToString:@"Emoji-InputView-Key"]) {
+        UIKBShape *shape2 = key.shape;
+        CGFloat height = [SoftPSEmojiLayout scrollViewHeight:keyboardName];
+        CGRect newFrame2 = CGRectMake(shape2.frame.origin.x, shape2.frame.origin.y, shape2.frame.size.width, height);
+        shape2.frame = newFrame2;
+        CGRect paddedFrame2 = CGRectMake(shape2.paddedFrame.origin.x, shape2.paddedFrame.origin.y, shape2.paddedFrame.size.width, height);
+        shape2.paddedFrame = paddedFrame2;
+        key.shape = shape2;
+        frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, height);
+    }
+    return %orig(frame, keyboard, key, state);
 }
 
 %end
