@@ -25,7 +25,7 @@ void aHook(UIKeyboardEmojiCategoryBar *self, UIKBTree *key) {
         UIKeyboardEmojiCategory *category = categories[index];
         NSInteger categoryType = category.categoryType;
         if (categoryType < count) {
-            emojiKey.displayString = extraIcons()[categoryType];
+            emojiKey.displayString = displaySymbolsAsImageNames()[categoryType];
             [keys addObject:[emojiKey autorelease]];
         }
     } while (++index < count);

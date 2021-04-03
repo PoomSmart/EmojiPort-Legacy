@@ -45,7 +45,9 @@ BOOL isEmojiInput() {
 %hook UIKeyboardLayoutStar
 
 - (void)resizeForKeyplaneSize:(CGSize)size {
-    %orig([UIKeyboardImpl keyboardSizeForInterfaceOrientation:[[UIApplication sharedApplication] _frontMostAppOrientation]]);
+    CGSize newSize = [%c(UIKeyboardImpl) isSplit] ? size
+        : [UIKeyboardImpl keyboardSizeForInterfaceOrientation:[[UIApplication sharedApplication] _frontMostAppOrientation]];
+    %orig(newSize);
 }
 
 %end
@@ -61,7 +63,7 @@ void modifyBar(UIKBShape *shape, CGFloat scrollViewHeight, CGFloat barHeight) {
 }
 
 void modifyKeyboard(UIKBTree *keyboard, NSString *name) {
-    if ([name rangeOfString:@"Emoji"].location != NSNotFound) {
+    if (containsString(name, @"Emoji")) {
         CGFloat keyboardHeight = [SoftPSEmojiLayout keyboardHeight:name];
         CGFloat barHeight = [SoftPSEmojiLayout barHeight:name];
         CGFloat scrollViewHeight = keyboardHeight - barHeight;

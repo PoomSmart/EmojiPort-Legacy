@@ -39,7 +39,7 @@ CGFloat scaleFactor = CATEGORIES_COUNT / 6.;
 
 - (NSString *)symbolForRow:(NSInteger)row {
     NSString *symbol = ((UIKeyboardEmojiCategory *)[NSClassFromString(@"UIKeyboardEmojiCategory") categoryForType:row]).displaySymbol;
-    CGFloat rivenFactor = [[NSClassFromString(@"UIKeyboardPreferencesController") sharedPreferencesController] rivenSizeFactor:1.0];
+    CGFloat rivenFactor = [[%c(UIKeyboardPreferencesController) sharedPreferencesController] rivenSizeFactor:1.0];
     return [symbol stringByReplacingOccurrencesOfString:@".png" withString:rivenFactor < 1.0 ? @"_split-163r.png" : @"_split.png"];
 }
 
@@ -53,12 +53,11 @@ CGFloat scaleFactor = CATEGORIES_COUNT / 6.;
 
 %group iOS6
 
-%hook UIKeyboardEmojiCategoryPicker
+%hook UIKeyboardEmojiPickerCategoryCell
 
-- (id)initWithFrame:(CGRect)frame keyboard:(id)keyboard key:(id)key state:(int)state {
-    CGRect newFrame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height * scaleFactor);
-    self = %orig(newFrame, keyboard, key, state);
-    return self;
+- (UIFont *)symbolFont {
+    CGFloat fontSize = [[%c(UIKeyboardPreferencesController) sharedPreferencesController] rivenSizeFactor:25.0];
+    return [UIFont fontWithName:@"AppleColorEmoji" size:fontSize];
 }
 
 %end

@@ -3,7 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
-NSArray <NSString *> *extraIcons();
+NSArray <NSString *> *displaySymbolsAsImageNames();
+NSArray <NSString *> *displaySymbolsAsGlyphs();
 
 BOOL isTargetKey(NSString *name);
 

@@ -39,7 +39,7 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
 - (NSString *)displaySymbol {
     PSEmojiCategory categoryType = self.categoryType;
     if (categoryType < CATEGORIES_COUNT)
-        return extraIcons()[categoryType];
+        return displaySymbolsAsImageNames()[categoryType];
     return %orig;
 }
 
