@@ -9,3 +9,4 @@ Maintainer: PoomSmart
 Author: PoomSmart
 Section: Tweaks
 Depiction: https://poomsmart.github.io/repo/depictions/emojiport_6.html
+Tag: compatible::ios6, compatible::ios7, compatible::ios8

@@ -1,8 +1,7 @@
-#import "../EmojiLibrary/Header.h"
 #import "../EmojiLibrary/PSEmojiUtilities.h"
 #import "../PSHeader/Misc.h"
 #import "Global.h"
-#import <CoreGraphics/CoreGraphics.h>
+#import "LegacyUI.h"
 #import <UIKit/UIApplication+Private.h>
 #import <UIKit/UIKeyboardImpl.h>
 #import <theos/IOSMacros.h>
@@ -11,23 +10,6 @@
 extern NSString *UIKBEmojiDivider;
 extern NSString *UIKBEmojiDarkDivider;
 extern NSString *UIKBEmojiSelectedDivider;
-
-extern "C" {
-    void CGContextResetCTM(CGContextRef);
-
-    void UIKBRectsSetFrame(UIKBRectsRef, CGRect);
-    void UIKBRectsSetDisplayFrame(UIKBRectsRef, CGRect);
-    void UIKBRectsSetPaddedFrame(UIKBRectsRef, CGRect);
-    void UIKBRectsRelease(UIKBRectsRef);
-
-    CGColorRef UIKBGetNamedColor(CFStringRef);
-    CGColorRef UIKBColorCreate(int, int, int, CGFloat);
-    CGGradientRef UIKBCreateTwoColorLinearGradient(CGColorRef, CGColorRef);
-
-    CGFloat UIKBScale();
-
-    UIKBRectsRef UIKBRectsCreate(UIKBTree *keyboard, UIKBTree *key);
-}
 
 void (*UIKBThemeSetFontSize)(UIKBThemeRef, CGFloat);
 void (*UIKBThemeSetSymbolColor)(UIKBThemeRef, CGColorRef);
