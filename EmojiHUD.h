@@ -8,6 +8,7 @@
 }
 + (instancetype)sharedInstance;
 @property BOOL showing;
+@property BOOL multiline;
 - (void)show;
 - (void)hide;
 - (void)show:(BOOL)show;

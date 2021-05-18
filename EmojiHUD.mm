@@ -11,18 +11,18 @@
 
 @implementation EmojiHUD
 
-@synthesize showing = _showing;
-
 - (void)calculateRect:(int)count {
     CGFloat width = IS_IPAD ? 300.0 : 260.0;
     CGFloat height = IS_IPAD ? 55.0 : 40.0;
     if (count > MAX_PER_ROW) {
+        self.multiline = YES;
 #if __LP64__
-    height *= 1.2 * ceil((double)count / MAX_PER_ROW);
+    height *= 1.05 * ceil((double)count / MAX_PER_ROW);
 #else
-    height *= 1.2 * ceilf((float)count / MAX_PER_ROW);
+    height *= 1.05 * ceilf((float)count / MAX_PER_ROW);
 #endif  
-    }
+    } else
+        self.multiline = NO;
     BOOL isPortrait = [SoftPSEmojiLayout isPortrait];
     CGRect bounds = UIScreen.mainScreen.bounds;
     CGFloat screenWidth = bounds.size.width;
@@ -95,7 +95,7 @@
 }
 
 - (UIKeyboardEmoji *)emojiFromIndex:(NSInteger)index {
-    NSString *emojiString = index > MAX_PER_ROW
+    NSString *emojiString = self.multiline
         ? [PSEmojiUtilities skinToneVariants:self->_emojiString][index]
         : [PSEmojiUtilities skinToneVariant:self->_emojiString skin:[PSEmojiUtilities skinModifiers][index - 1]];
     return [PSEmojiUtilities emojiWithString:emojiString];
@@ -110,10 +110,13 @@
     CGPoint pos = [touch locationInView:touch.view];
     CGFloat xPos = pos.x / (self.frame.size.width / MAX_PER_ROW);
     CGFloat yPos = pos.y / self.frame.size.height;
+    CGFloat yPosFinal = self.multiline ? yPos * MAX_PER_ROW : yPos;
 #if __LP64__
-    NSInteger index = (NSInteger)ceil(xPos) + (MAX_PER_ROW * (NSInteger)floor(yPos * MAX_PER_ROW));
+    CGFloat xPosFinal = self.multiline ? floor(xPos) : ceil(xPos);
+    NSInteger index = (NSInteger)xPosFinal + (MAX_PER_ROW * (NSInteger)floor(yPosFinal));
 #else
-    NSInteger index = (NSInteger)ceilf(xPos) + (MAX_PER_ROW * (NSInteger)floorf(yPos * MAX_PER_ROW));
+    CGFloat xPosFinal = self.multiline ? floorf(xPos) : ceilf(xPos);
+    NSInteger index = (NSInteger)xPosFinal + (MAX_PER_ROW * (NSInteger)floorf(yPosFinal));
 #endif
     [self emojiUsedAtIndex:index];
 }
