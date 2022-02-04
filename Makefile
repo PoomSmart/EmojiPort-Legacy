@@ -1,4 +1,4 @@
-PACKAGE_VERSION = 1.7.5
+PACKAGE_VERSION = 1.8.0
 
 ifeq ($(SIMULATOR),1)
 	TARGET = simulator:clang:latest:8.0
@@ -12,8 +12,8 @@ include $(THEOS)/makefiles/common.mk
 
 ifneq ($(SIMULATOR),1)
 TWEAK_NAME = EmojiPortLegacy
-EmojiPortLegacy_FILES = Tweak.xm
-EmojiPortLegacy_USE_SUBSTRATE = 1
+$(TWEAK_NAME)_FILES = Tweak.x
+$(TWEAK_NAME)_USE_SUBSTRATE = 1
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 endif

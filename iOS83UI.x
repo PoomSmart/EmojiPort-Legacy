@@ -16,7 +16,7 @@
 void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
     if (self._mycategoryLabel == nil) {
         NSInteger orientation = [UIKeyboardImpl.activeInstance interfaceOrientation];
-        CGPoint margin = [NSClassFromString(@"UIKeyboardEmojiGraphics") margin:orientation == 1 || orientation == 2];
+        CGPoint margin = [%c(UIKeyboardEmojiGraphics) margin:orientation == 1 || orientation == 2];
         self._mycategoryLabel = [[UILabel alloc] initWithFrame:CGRectMake(margin.x, 0.0, frame.size.width / 2, LABEL_HEIGHT)];
         self._mycategoryLabel.alpha = 0.4;
         CGFloat fontSize = FONT_SIZE;
@@ -28,7 +28,7 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
             self._mycategoryLabel.font = [UIFont boldSystemFontOfSize:fontSize];
         }
         self._mycategoryLabel.backgroundColor = UIColor.clearColor;
-        [self updateLabel:MSHookIvar<UIKeyboardEmojiCategory *>(self, "_category").categoryType];
+        [self updateLabel:((UIKeyboardEmojiCategory *)[self valueForKey:@"_category"]).categoryType];
         [self addSubview:self._mycategoryLabel];
     }
 }
@@ -39,12 +39,12 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 
 %new
 - (void)updateLabel:(NSInteger)categoryType {
-    self._mycategoryLabel.text = [[[NSClassFromString(@"UIKeyboardEmojiCategory") categoryForType:categoryType] displayName] uppercaseStringWithLocale:[NSLocale currentLocale]];
+    self._mycategoryLabel.text = [[[%c(UIKeyboardEmojiCategory) categoryForType:categoryType] displayName] uppercaseStringWithLocale:[NSLocale currentLocale]];
 }
 
 - (void)layoutRecents {
     %orig;
-    MSHookIvar<UILabel *>(self, "_categoryLabel").hidden = YES;
+    ((UILabel *)[self valueForKey:@"_categoryLabel"]).hidden = YES;
 }
 
 - (void)reloadForCategory:(UIKeyboardEmojiCategory *)category {
@@ -54,7 +54,7 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 
 - (void)doLayout {
     %orig;
-    [self updateLabel:MSHookIvar<UIKeyboardEmojiCategory *>(self, "_category").categoryType];
+    [self updateLabel:((UIKeyboardEmojiCategory *)[self valueForKey:@"_category"]).categoryType];
 }
 
 %group iOS7Up

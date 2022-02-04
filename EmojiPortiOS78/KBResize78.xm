@@ -6,7 +6,6 @@
 #import <UIKit/UIKBScreenTraits.h>
 #import <UIKit/UIKeyboardImpl.h>
 #import <UIKit/UIKeyboard.h>
-#import <substrate.h>
 #import <version.h>
 
 extern "C" NSString *UIKeyboardGetCurrentInputMode();
@@ -14,9 +13,9 @@ NSString *(*UIKeyboardGetKBStarName8)(NSString *name, UIKBScreenTraits *traits, 
 NSString *(*UIKeyboardGetKBStarName7)(NSString *name, UIKBScreenTraits *traits, NSInteger type);
 
 void aHook(UIKeyboardEmojiCategoryBar *self, UIKBTree *key) {
-    UIKBTree *_key = MSHookIvar<UIKBTree *>(self, "m_key");
+    UIKBTree *_key = [self valueForKey:@"m_key"];
     [key.subtrees removeAllObjects];
-    NSArray <UIKeyboardEmojiCategory *> *categories = [NSClassFromString(@"UIKeyboardEmojiCategory") categories];
+    NSArray <UIKeyboardEmojiCategory *> *categories = [%c(UIKeyboardEmojiCategory) categories];
     NSInteger count = categories.count;
     NSMutableArray <UIKBTree *> *keys = [NSMutableArray arrayWithCapacity:count];
     NSUInteger index = 0;
@@ -193,7 +192,7 @@ void hookTraits(UIKBRenderTraits *traits, UIKBTree *key, UIKBTree *keyplane) {
 CGSize hookSize(CGSize size) {
     Class layoutClass = [UIKeyboardImpl layoutClassForCurrentInputMode];
     if (layoutClass == NSClassFromString(@"UIKeyboardLayoutStar")) {
-        UIKBScreenTraits *screenTraits = [NSClassFromString(@"UIKBScreenTraits") traitsWithScreen:[UIKeyboardImpl keyboardScreen] orientation:[[[UIKeyboardImpl activeInstance] _layout] orientation]];
+        UIKBScreenTraits *screenTraits = [%c(UIKBScreenTraits) traitsWithScreen:[UIKeyboardImpl keyboardScreen] orientation:[[[UIKeyboardImpl activeInstance] _layout] orientation]];
         NSString *name = UIKeyboardGetKBStarName8(UIKeyboardGetCurrentInputMode(), screenTraits, 0, 0);
         UIKBTree *tree = [layoutClass keyboardFromFactoryWithName:name screen:[UIKeyboardImpl keyboardScreen]];
         if (tree && [name rangeOfString:@"Emoji"].location != NSNotFound) {
@@ -227,11 +226,11 @@ CGSize hookSize(CGSize size) {
 %hook UIKeyboardLayoutStar
 
 - (void)resizeForKeyplaneSize:(CGSize)size {
-    NSInteger orientation = [[NSClassFromString(@"UIKeyboard") activeKeyboard] interfaceOrientation];
-    UIKBScreenTraits *screenTraits = [NSClassFromString(@"UIKBScreenTraits") traitsWithScreen:[UIKeyboardImpl keyboardScreen] orientation:orientation];
+    NSInteger orientation = [[%c(UIKeyboard) activeKeyboard] interfaceOrientation];
+    UIKBScreenTraits *screenTraits = [%c(UIKBScreenTraits) traitsWithScreen:[UIKeyboardImpl keyboardScreen] orientation:orientation];
     [screenTraits setOrientationKey:[UIKeyboardImpl orientationKeyForOrientation:orientation]];
     NSString *name = UIKeyboardGetKBStarName7(UIKeyboardGetCurrentInputMode(), screenTraits, 0);
-    UIKBTree *tree = [NSClassFromString(@"UIKeyboardLayoutStar") keyboardFromFactoryWithName:name screen:[UIKeyboardImpl keyboardScreen]];
+    UIKBTree *tree = [%c(UIKeyboardLayoutStar) keyboardFromFactoryWithName:name screen:[UIKeyboardImpl keyboardScreen]];
     if (tree && ![tree isSplit] && [name rangeOfString:@"Emoji"].location != NSNotFound) {
         UIKBShape *shape = tree.shape;
         CGFloat height = [SoftPSEmojiLayout keyboardHeight:name];

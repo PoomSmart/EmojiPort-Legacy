@@ -23,7 +23,7 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
         _categories = [_array retain];
         PSEmojiCategory categoryType = 0;
         do {
-            UIKeyboardEmojiCategory *category = [[[NSClassFromString(@"UIKeyboardEmojiCategory") alloc] init] autorelease];
+            UIKeyboardEmojiCategory *category = [[%c(UIKeyboardEmojiCategory) alloc] init];
             category.categoryType = categoryType;
             [_categories addObject:category];
         } while (++categoryType != count);
@@ -52,7 +52,7 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
     if (emojiForType.count)
         return categoryForType;
     NSArray <NSString *> *emojiArray = [PSEmojiUtilities PrepolulatedEmoji];
-    switch (categoryType) {
+    switch ((NSInteger)categoryType) {
         case IDXPSEmojiCategoryRecent: {
             NSMutableArray <UIKeyboardEmoji *> *recents = [self emojiRecentsFromPreferences];
             if (recents) {

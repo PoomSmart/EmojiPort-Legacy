@@ -6,7 +6,7 @@
 #import <version.h>
 #import <dlfcn.h>
 
-extern "C" NSString *UIKeyboardGetCurrentInputMode();
+extern NSString *UIKeyboardGetCurrentInputMode();
 
 NSString *keyboardName() {
     UIKeyboardLayoutStar *layout = [UIKeyboardImpl.activeInstance _layout];

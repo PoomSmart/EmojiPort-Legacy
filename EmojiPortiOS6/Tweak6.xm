@@ -118,7 +118,7 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
     if (emojiForType.count)
         return categoryForType;
     NSArray <NSString *> *emojiArray = [PSEmojiUtilities PrepolulatedEmoji];
-    switch (categoryType) {
+    switch ((NSInteger)categoryType) {
         case IDXPSEmojiCategoryRecent: {
             NSMutableArray *recents = [self emojiRecentsFromPreferences];
             if (recents) {

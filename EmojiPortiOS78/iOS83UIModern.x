@@ -17,12 +17,12 @@
 - (UIKBRenderTraits *)backgroundTraitsForKeyplane:(UIKBTree *)keyplane {
     UIKBRenderTraits *traits = %orig;
     if (self.renderConfig.lightKeyboard)
-        traits.backgroundGradient = [NSClassFromString(@"UIKBGradient") gradientWithFlatColor:@"UIKBColorClear"];
+        traits.backgroundGradient = [%c(UIKBGradient) gradientWithFlatColor:@"UIKBColorClear"];
     return traits;
 }
 
 - (UIKBRenderTraits *)_emojiCategoryControlKeyTraits {
-    return [NSClassFromString(@"UIKBRenderTraits") emptyTraits];
+    return [%c(UIKBRenderTraits) emptyTraits];
 }
 
 - (NSString *)_emojiBorderColor {
@@ -34,7 +34,7 @@
 }
 
 - (UIKBGradient *)_emojiInputViewKeyBackgroundColorGradient {
-    return [NSClassFromString(@"UIKBGradient") gradientWithFlatColor:@"UIKBColorClear"];
+    return [%c(UIKBGradient) gradientWithFlatColor:@"UIKBColorClear"];
 }
 
 %end

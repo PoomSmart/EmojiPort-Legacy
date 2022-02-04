@@ -2,20 +2,20 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
-  	<key>entry</key>
-	<dict>
-		<key>cell</key>
-		<string>PSSwitchCell</string>
-		<key>default</key>
-		<true/>
-		<key>defaults</key>
-		<string>com.PS.EmojiPortLegacy</string>
-		<key>icon</key>
-		<string>EmojiPortLegacy.png</string>
-		<key>key</key>
-		<string>enabled</string>
-		<key>label</key>
-		<string>iOS 8.3+ UI</string>
-	</dict>
+      <key>entry</key>
+    <dict>
+        <key>cell</key>
+        <string>PSSwitchCell</string>
+        <key>default</key>
+        <true/>
+        <key>defaults</key>
+        <string>com.PS.EmojiPortLegacy</string>
+        <key>icon</key>
+        <string>EmojiPortLegacy.png</string>
+        <key>key</key>
+        <string>enabled</string>
+        <key>label</key>
+        <string>iOS 8.3+ UI</string>
+    </dict>
   </dict>
 </plist>

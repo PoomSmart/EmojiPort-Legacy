@@ -17,5 +17,3 @@ else
 	# iOS 6
 	rm -f /Library/MobileSubstrate/DynamicLibraries/EmojiPort/EmojiPortiOS78.dylib
 fi
-
-echo "IMPORTANT: You MUST install latest emoji font in order to display emoji on your devices correctly."

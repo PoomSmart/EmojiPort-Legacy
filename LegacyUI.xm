@@ -26,7 +26,7 @@ CGContextRef (*UIKBCreateBitmapContextWithScale)(CGSize size, CGFloat scale);
 CGFloat (*UIKBKeyboardDefaultLandscapeWidth)();
 
 UIImage *egImage(CGRect frame, NSString *imageName, BOOL pressed) {
-    return [NSClassFromString(@"UIKeyboardEmojiGraphics") imageWithRect:frame name:imageName pressed:pressed];
+    return [%c(UIKeyboardEmojiGraphics) imageWithRect:frame name:imageName pressed:pressed];
 }
 
 NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
@@ -47,17 +47,17 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
 
 - (void)layoutSubviews {
     %orig;
-    for (UIImageView *divider in MSHookIvar<NSMutableArray *>(self, "_dividerViews"))
+    for (UIImageView *divider in [self valueForKey:@"_dividerViews"])
         divider.frame = CGRectMake(divider.frame.origin.x - 1.15, divider.frame.origin.y, divider.frame.size.width, divider.frame.size.height);
-    for (UIImageView *segment in MSHookIvar<NSMutableArray *>(self, "_segmentViews"))
+    for (UIImageView *segment in [self valueForKey:@"_segmentViews"])
         segment.frame = CGRectMake(segment.frame.origin.x - 1.15, segment.frame.origin.y, segment.frame.size.width, segment.frame.size.height);
 }
 
 - (void)updateSegmentImages {
-    NSMutableArray <UIView *> *segmentViews(MSHookIvar<NSMutableArray *>(self, "_segmentViews"));
+    NSMutableArray <UIView *> *segmentViews([self valueForKey:@"_segmentViews"]);
     for (UIView *segment in segmentViews)
         [segment removeFromSuperview];
-    NSMutableArray <UIView *> *dividerViews(MSHookIvar<NSMutableArray *>(self, "_dividerViews"));
+    NSMutableArray <UIView *> *dividerViews([self valueForKey:@"_dividerViews"]);
     for (UIView *divider in dividerViews)
         [divider removeFromSuperview];
     [self releaseImagesAndViews];
@@ -66,12 +66,8 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
     CGFloat dividerWidth = 1.0;
     CGFloat barWidth = barFrame.size.width;
     barFrame.size.width = (barWidth - (numberOfCategories + 1) * dividerWidth) / numberOfCategories;
-    NSArray <UIImage *> *unselectedImages(MSHookIvar<NSArray *>(self, "_unselectedImages"));
-    [unselectedImages release];
-    NSArray <UIImage *> *selectedImages(MSHookIvar<NSArray *>(self, "_selectedImages"));
-    [selectedImages release];
-    MSHookIvar<NSArray *>(self, "_unselectedImages") = [emojiCategoryBarImages(barFrame, NO) retain];
-    MSHookIvar<NSArray *>(self, "_selectedImages") = [emojiCategoryBarImages(barFrame, YES) retain];
+    [self setValue:emojiCategoryBarImages(barFrame, NO) forKey:@"_unselectedImages"];
+    [self setValue:emojiCategoryBarImages(barFrame, YES) forKey:@"_selectedImages"];
     NSInteger additionalDivider = 0;
     CGFloat barHeight = barFrame.size.height;
     CGPoint origin = barFrame.origin;
@@ -81,32 +77,34 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
     NSInteger orientation = [[UIApplication sharedApplication] _frontMostAppOrientation];
     if (!IS_IPAD && ((UIKBKeyboardDefaultLandscapeWidth() > 480.0) || (orientation == 3 || orientation == 4)))
         additionalDivider = 1;
-    NSUInteger unselectedImagesCount = [MSHookIvar<NSArray *>(self, "_unselectedImages") count];
+    NSArray <UIImage *> *currentUnselectedImages = [self valueForKey:@"_unselectedImages"];
+    NSUInteger unselectedImagesCount = [currentUnselectedImages count];
     MSHookIvar<NSInteger>(self, "_total") = unselectedImagesCount;
     MSHookIvar<NSInteger>(self, "_dividerTotal") = unselectedImagesCount + additionalDivider;
     MSHookIvar<NSMutableArray *>(self, "_segmentViews") = [[NSMutableArray alloc] initWithCapacity:MSHookIvar<NSInteger>(self, "_total")];
     MSHookIvar<NSMutableArray *>(self, "_dividerViews") = [[NSMutableArray alloc] initWithCapacity:MSHookIvar<NSInteger>(self, "_dividerTotal") + 1];
-    if (MSHookIvar<NSInteger>(self, "_total")) {
-        NSUInteger i = 0;
+    int total = [[self valueForKey:@"_total"] intValue];
+    if (total) {
+        int i = 0;
         do {
-            UIImageView *unselectedImageView = [[UIImageView alloc] initWithImage:MSHookIvar<NSArray *>(self, "_unselectedImages")[i]];
+            UIImageView *unselectedImageView = [[UIImageView alloc] initWithImage:currentUnselectedImages[i]];
             [self addSubview:unselectedImageView];
-            [MSHookIvar<NSMutableArray *>(self, "_segmentViews") insertObject:unselectedImageView atIndex:i];
+            [[self valueForKey:@"_segmentViews"] insertObject:unselectedImageView atIndex:i];
             [unselectedImageView release];
-        } while (++i < MSHookIvar<NSInteger>(self, "_total"));
+        } while (++i < total);
     }
-    NSUInteger dividerCount = MSHookIvar<NSInteger>(self, "_dividerTotal");
+    int dividerCount = [[self valueForKey:@"_dividerTotal"] intValue];
     if (dividerCount) {
-        NSUInteger j = 0;
+        int j = 0;
         do {
             UIImage *dividerImage = (j && j < dividerCount) ? MSHookIvar<UIImage *>(self, "_plainDivider") : MSHookIvar<UIImage *>(self, "_darkDivider");
             UIImageView *dividerImageView = [[UIImageView alloc] initWithImage:dividerImage];
             [self addSubview:dividerImageView];
-            [MSHookIvar<NSMutableArray *>(self, "_dividerViews") insertObject:dividerImageView atIndex:j];
+            [[self valueForKey:@"_dividerViews"] insertObject:dividerImageView atIndex:j];
             [dividerImageView release];
         } while (++j - 1 < dividerCount);
     }
-    [self updateSegmentAndDividers:MSHookIvar<int>(self, "_selected")];
+    [self updateSegmentAndDividers:[[self valueForKey:@"_selected"] intValue]];
 }
 
 %end
