@@ -9,7 +9,7 @@ endif
 include $(THEOS)/makefiles/common.mk
 
 LIBRARY_NAME = EmojiPortiOS78
-$(LIBRARY_NAME)_FILES = ../EmojiHUD.mm ../EmojiHUDSupport.x ../Global.xm ../EmojiPicker.x ../LegacyUI.xm ../iOS83UI.x iOS83UIModern.x KBResize78.xm ../KBResizeLegacy.x Tweak78.xm
+$(LIBRARY_NAME)_FILES = ../EmojiHUD.mm EmojiHUDSupport.x Global.xm EmojiPicker.x LegacyUI.xm iOS83UI.x iOS83UIModern.x KBResize78.xm KBResizeLegacy.x Tweak78.xm
 ifeq ($(SIMULATOR),1)
 	$(LIBRARY_NAME)_FILES += NoKeyboardCache.x
 endif

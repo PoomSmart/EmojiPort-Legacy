@@ -21,7 +21,7 @@ endif
 SUBPROJECTS = EmojiPortiOS6 EmojiPortiOS78
 
 include $(THEOS_MAKE_PATH)/aggregate.mk
-include ../preferenceloader-sim/locatesim.mk
+include ../../preferenceloader-sim/locatesim.mk
 
 ifeq ($(SIMULATOR),1)
 setup:: all

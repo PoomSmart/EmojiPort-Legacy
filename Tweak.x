@@ -1,6 +1,6 @@
 #define CHECK_TARGET
 #import <dlfcn.h>
-#import "../PS.h"
+#import <PSHeader/PS.h>
 
 %ctor {
     if (isTarget(TargetTypeApps)) {

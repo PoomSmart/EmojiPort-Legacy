@@ -1,7 +1,7 @@
 #import "../../EmojiLibrary/Header.h"
 #import "../../EmojiLayout/PSEmojiLayout.h"
-#import "../../PSHeader/Misc.h"
 #import "../Global.h"
+#import <PSHeader/Misc.h>
 #import <UIKit/UIKBRenderTraits.h>
 #import <UIKit/UIKBScreenTraits.h>
 #import <UIKit/UIKeyboardImpl.h>

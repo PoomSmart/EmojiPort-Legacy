@@ -1,5 +1,5 @@
 #import "../../EmojiLibrary/Header.h"
-#import "../../PSHeader/Misc.h"
+#import <PSHeader/Misc.h>
 #import <UIKit/UIKBRenderConfig.h>
 #import <UIKit/UIKBRenderTraits.h>
 #import <UIKit/UIKBGradient.h>
