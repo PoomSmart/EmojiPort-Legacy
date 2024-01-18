@@ -1,12 +1,12 @@
-#import "../../EmojiLibrary/Header.h"
-#import "../../EmojiLayout/PSEmojiLayout.h"
-#import "../Global.h"
+#import <EmojiLibrary/Header.h>
 #import <PSHeader/Misc.h>
 #import <UIKit/UIKBRenderTraits.h>
 #import <UIKit/UIKBScreenTraits.h>
 #import <UIKit/UIKeyboardImpl.h>
 #import <UIKit/UIKeyboard.h>
 #import <version.h>
+#import "../Global.h"
+#import "../../EmojiLayout/PSEmojiLayout.h"
 
 extern "C" NSString *UIKeyboardGetCurrentInputMode();
 NSString *(*UIKeyboardGetKBStarName8)(NSString *name, UIKBScreenTraits *traits, NSInteger type, NSInteger bias);

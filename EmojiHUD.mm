@@ -1,11 +1,10 @@
-#import "EmojiHUD.h"
-#import "../EmojiLibrary/PSEmojiUtilities.h"
-#import "../EmojiLayout/PSEmojiLayout.h"
-#import <UIKit/UIKit.h>
+#import <EmojiLibrary/PSEmojiUtilities.h>
 #import <UIKit/UIKeyboard.h>
 #import <theos/IOSMacros.h>
 #import <substrate.h>
 #import <version.h>
+#import "EmojiHUD.h"
+#import "../EmojiLayout/PSEmojiLayout.h"
 
 #define MAX_PER_ROW 5
 

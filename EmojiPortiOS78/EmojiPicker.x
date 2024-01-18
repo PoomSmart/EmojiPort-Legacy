@@ -1,5 +1,5 @@
-#import "../EmojiLibrary/Header.h"
-#import "../EmojiLibrary/PSEmojiUtilities.h"
+#import <EmojiLibrary/Header.h>
+#import <EmojiLibrary/PSEmojiUtilities.h>
 #import <UIKit/UIKeyboardPreferencesController.h>
 #import <version.h>
 

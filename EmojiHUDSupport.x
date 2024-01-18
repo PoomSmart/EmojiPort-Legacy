@@ -1,5 +1,5 @@
+#import <EmojiLibrary/PSEmojiUtilities.h>
 #import "EmojiHUD.h"
-#import "../EmojiLibrary/PSEmojiUtilities.h"
 
 BOOL from;
 NSTimer *__showHUD;

@@ -1,4 +1,4 @@
-#import "../EmojiLibrary/Header.h"
+#import <EmojiLibrary/Header.h>
 
 #define EmojiHUDHoldInterval 0.35
 

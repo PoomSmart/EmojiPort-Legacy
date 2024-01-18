@@ -1,4 +1,4 @@
-#import "../../EmojiLibrary/PSEmojiUtilities.h"
+#import <EmojiLibrary/PSEmojiUtilities.h>
 #import "../Global.h"
 #import "../EmojiHUD.h"
 

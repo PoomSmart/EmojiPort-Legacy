@@ -1,4 +1,4 @@
-#import "../EmojiLibrary/Header.h"
+#import <EmojiLibrary/Header.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKBTree.h>
 

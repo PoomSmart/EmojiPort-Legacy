@@ -1,4 +1,4 @@
-#import "../EmojiLibrary/Header.h"
+#import <EmojiLibrary/Header.h>
 #import <PSHeader/Misc.h>
 #import <UIKit/UIKeyboardImpl.h>
 #import <theos/IOSMacros.h>

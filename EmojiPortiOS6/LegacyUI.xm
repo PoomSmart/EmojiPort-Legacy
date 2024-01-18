@@ -1,11 +1,11 @@
-#import "../EmojiLibrary/PSEmojiUtilities.h"
+#import <EmojiLibrary/PSEmojiUtilities.h>
 #import <PSHeader/Misc.h>
-#import "Global.h"
-#import "LegacyUI.h"
 #import <UIKit/UIApplication+Private.h>
 #import <UIKit/UIKeyboardImpl.h>
 #import <theos/IOSMacros.h>
 #import <version.h>
+#import "Global.h"
+#import "LegacyUI.h"
 
 extern NSString *UIKBEmojiDivider;
 extern NSString *UIKBEmojiDarkDivider;

@@ -1,10 +1,10 @@
-#import "../EmojiLibrary/Header.h"
-#import "../EmojiLayout/PSEmojiLayout.h"
+#import <EmojiLibrary/Header.h>
 #import <PSHeader/Misc.h>
 #import <UIKit/UIKeyboardImpl.h>
 #import <UIKit/UIApplication+Private.h>
 #import <version.h>
 #import <dlfcn.h>
+#import "../EmojiLayout/PSEmojiLayout.h"
 
 extern NSString *UIKeyboardGetCurrentInputMode();
 
