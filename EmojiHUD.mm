@@ -82,21 +82,22 @@
     if (!emoji || !emoji.emojiString.length)
         return;
     if (IS_IOS_OR_NEWER(iOS_6_0)) {
-        UIKeyboardEmojiInputController *controller = (UIKeyboardEmojiInputController *)[[NSClassFromString(@"UIKeyboardEmojiInputController") activeInputView] valueForKey:@"_inputController"];
+        UIKeyboardEmojiInputController *controller = [[NSClassFromString(@"UIKeyboardEmojiInputController") activeInputView] valueForKey:@"_inputController"];
         [controller emojiUsed:emoji];
     } else
-        [(UIKeyboardLayoutEmoji *)[NSClassFromString(@"UIKeyboardLayoutEmoji") emojiLayout] emojiSelected:emoji];
+        [[NSClassFromString(@"UIKeyboardLayoutEmoji") emojiLayout] emojiSelected:emoji];
     [self hide];
 }
 
 - (NSArray <NSString *> *)variantsForEmoji:(NSString *)emojiString {
-    return [PSEmojiUtilities skinToneVariants:emojiString isSkin:YES];
+    return [PSEmojiUtilities skinToneVariantsForString:emojiString withSelf:NO];
 }
 
 - (UIKeyboardEmoji *)emojiFromIndex:(NSInteger)index {
+    NSArray <NSString *> *variants = [self variantsForEmoji:self->_emojiString];
     NSString *emojiString = self.multiline
-        ? [PSEmojiUtilities skinToneVariants:self->_emojiString][index]
-        : [PSEmojiUtilities skinToneVariant:self->_emojiString skin:[PSEmojiUtilities skinModifiers][index - 1]];
+        ? variants[index]
+        : variants[index - 1];
     return [PSEmojiUtilities emojiWithString:emojiString];
 }
 
