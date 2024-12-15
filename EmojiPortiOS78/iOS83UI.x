@@ -7,7 +7,7 @@
 
 @interface UIKeyboardEmojiScrollView (iOS83UI)
 @property(retain, nonatomic) UILabel *_mycategoryLabel;
-- (void)updateLabel:(NSInteger)categoryType;
+- (void)updateLabel:(int)categoryType;
 @end
 
 #define LABEL_HEIGHT (IS_IPAD ? 44.0 : 21.0)
@@ -37,8 +37,8 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 
 %property(retain, nonatomic) UILabel *_mycategoryLabel;
 
-%new
-- (void)updateLabel:(NSInteger)categoryType {
+%new(v@:i)
+- (void)updateLabel:(int)categoryType {
     self._mycategoryLabel.text = [[[%c(UIKeyboardEmojiCategory) categoryForType:categoryType] displayName] uppercaseStringWithLocale:[NSLocale currentLocale]];
 }
 

@@ -51,7 +51,7 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
     NSArray <UIKeyboardEmoji *> *emojiForType = categoryForType.emoji;
     if (emojiForType.count)
         return categoryForType;
-    NSArray <NSString *> *emojiArray = [PSEmojiUtilities PrepolulatedEmoji];
+    NSArray <NSString *> *emojiArray = [PSEmojiUtilities PrepopulatedEmoji];
     switch ((NSInteger)categoryType) {
         case IDXPSEmojiCategoryRecent: {
             NSMutableArray <UIKeyboardEmoji *> *recents = [self emojiRecentsFromPreferences];
@@ -93,7 +93,7 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
     return categoryForType;
 }
 
-%new
+%new(B@:@@)
 + (BOOL)emojiString:(NSString *)emojiString inGroup:(NSArray <NSString *> *)group {
     return [PSEmojiUtilities emojiString:emojiString inGroup:group];
 }

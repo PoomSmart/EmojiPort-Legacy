@@ -111,10 +111,9 @@ void hookTraits(UIKBRenderTraits *traits, UIKBTree *key, UIKBTree *keyplane) {
 
 %hook UIKBKeyView
 
-%new
+%new(v@:@@)
 - (void)emoji83_positionFixForKeyplane:(UIKBTree *)keyplane key:(UIKBTree *)key {
-    if ([keyplane isSplit])
-        return;
+    if ([keyplane isSplit]) return;
     NSString *keyName = key.name;
     NSString *keyplaneName = keyplane.name;
     if (isTargetKey(keyName) && [keyplaneName rangeOfString:@"Emoji"].location != NSNotFound) {
@@ -122,15 +121,14 @@ void hookTraits(UIKBRenderTraits *traits, UIKBTree *key, UIKBTree *keyplane) {
         CGFloat height = [SoftPSEmojiLayout scrollViewHeight:keyplaneName];
         CGFloat height2 = [SoftPSEmojiLayout barHeight:keyplaneName];
         CGRect newFrame = CGRectMake(frame.origin.x, height, frame.size.width, height2);
-        if (key.state != 16) {
-            key.frame = newFrame;
-            UIKBShape *shape = key.shape;
-            CGRect paddedFrame = shape.paddedFrame;
-            CGRect newPaddedFrame = CGRectMake(paddedFrame.origin.x, height, paddedFrame.size.width, height2);
-            shape.frame = newFrame;
-            shape.paddedFrame = newPaddedFrame;
-            key.shape = shape;
-        }
+        if (key.state == 16) return;
+        key.frame = newFrame;
+        UIKBShape *shape = key.shape;
+        CGRect paddedFrame = shape.paddedFrame;
+        CGRect newPaddedFrame = CGRectMake(paddedFrame.origin.x, height, paddedFrame.size.width, height2);
+        shape.frame = newFrame;
+        shape.paddedFrame = newPaddedFrame;
+        key.shape = shape;
     }
 }
 

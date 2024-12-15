@@ -201,17 +201,17 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
     return [self categoryWithSymbol:displaySymbolsAsGlyphs()[5] pressed:pressed];
 }
 
-%new
+%new(@@:@)
 - (UIImage *)categoryActivityGenerator:(id)pressed {
     return [self categoryWithSymbol:displaySymbolsAsGlyphs()[6] pressed:pressed];
 }
 
-%new
+%new(@@:@)
 - (UIImage *)categoryFoodAndDrinkGenerator:(id)pressed {
     return [self categoryWithSymbol:displaySymbolsAsGlyphs()[7] pressed:pressed];
 }
 
-%new
+%new(@@:@)
 - (UIImage *)categoryFlagsGenerator:(id)pressed {
     return [self categoryWithSymbol:displaySymbolsAsGlyphs()[8] pressed:pressed];
 }
