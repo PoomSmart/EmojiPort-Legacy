@@ -1,4 +1,4 @@
-PACKAGE_VERSION = 1.8.3
+PACKAGE_VERSION = 1.8.4
 
 ifeq ($(SIMULATOR),1)
 	TARGET = simulator:clang:latest:8.0
@@ -21,9 +21,9 @@ endif
 SUBPROJECTS = EmojiPortiOS6 EmojiPortiOS78
 
 include $(THEOS_MAKE_PATH)/aggregate.mk
-include ../../preferenceloader-sim/locatesim.mk
 
 ifeq ($(SIMULATOR),1)
+include ../../preferenceloader-sim/locatesim.mk
 setup:: all
 	@rm -f /opt/simject/$(TWEAK_NAME).dylib /opt/simject/EmojiPortiOS6.dylib /opt/simject/EmojiPortiOS78.dylib
 	@cp -v $(THEOS_OBJ_DIR)/EmojiPortiOS78.dylib /opt/simject

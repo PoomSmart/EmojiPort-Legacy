@@ -93,7 +93,7 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
     return categoryForType;
 }
 
-%new(B@:@@)
+%new(c@:@@)
 + (BOOL)emojiString:(NSString *)emojiString inGroup:(NSArray <NSString *> *)group {
     return [PSEmojiUtilities emojiString:emojiString inGroup:group];
 }
