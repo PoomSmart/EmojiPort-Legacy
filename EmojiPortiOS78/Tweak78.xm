@@ -19,8 +19,7 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
 + (NSMutableArray <UIKeyboardEmojiCategory *> *)categories {
     if (_categories == nil) {
         NSInteger count = [self numberOfCategories];
-        NSMutableArray <UIKeyboardEmojiCategory *> *_array = [NSMutableArray arrayWithCapacity:count];
-        _categories = [_array retain];
+        _categories = [NSMutableArray arrayWithCapacity:count];
         PSEmojiCategory categoryType = 0;
         do {
             UIKeyboardEmojiCategory *category = [[%c(UIKeyboardEmojiCategory) alloc] init];

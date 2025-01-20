@@ -1,4 +1,4 @@
-PACKAGE_VERSION = 1.8.4
+PACKAGE_VERSION = 1.8.5
 
 ifeq ($(SIMULATOR),1)
 	TARGET = simulator:clang:latest:8.0
@@ -23,19 +23,13 @@ SUBPROJECTS = EmojiPortiOS6 EmojiPortiOS78
 include $(THEOS_MAKE_PATH)/aggregate.mk
 
 ifeq ($(SIMULATOR),1)
-include ../../preferenceloader-sim/locatesim.mk
+include ../../Simulator/preferenceloader-sim/locatesim.mk
 setup:: all
 	@rm -f /opt/simject/$(TWEAK_NAME).dylib /opt/simject/EmojiPortiOS6.dylib /opt/simject/EmojiPortiOS78.dylib
 	@cp -v $(THEOS_OBJ_DIR)/EmojiPortiOS78.dylib /opt/simject
 	@cp -v $(THEOS_OBJ_DIR)/EmojiPortiOS6.dylib /opt/simject
 	@cp -v $(PWD)/EmojiPortiOS78.plist /opt/simject
 	@cp -v $(PWD)/EmojiPortiOS6.plist /opt/simject
-	$(ECHO_NOTHING)find $(PWD)/EmojiPortLegacy -name .DS_Store -delete$(ECHO_END)
 	@sudo mkdir -p $(PL_SIMULATOR_PLISTS_PATH)
-	@sudo cp -vR $(PWD)/EmojiPortLegacy $(PL_SIMULATOR_PLISTS_PATH)/
-else
-internal-stage::
-	$(ECHO_NOTHING)mkdir -p $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences$(ECHO_END)
-	$(ECHO_NOTHING)cp -R EmojiPortLegacy $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences/EmojiPortLegacy$(ECHO_END)
-	$(ECHO_NOTHING)find $(THEOS_STAGING_DIR) -name .DS_Store -delete$(ECHO_END)
+	@sudo cp -vR $(PWD)/layout/Library/PreferenceLoader/Preferences/EmojiPortLegacy $(PL_SIMULATOR_PLISTS_PATH)/
 endif

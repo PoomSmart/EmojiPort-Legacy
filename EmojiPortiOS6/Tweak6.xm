@@ -19,7 +19,7 @@ void fixEmojiGlyph(UIKeyboardEmoji *emoji) {
         return;
     fromTweak = YES;
     if (stringLength >= 4) {
-        NSAttributedString *aStr = [[[NSAttributedString alloc] initWithString:emojiString attributes:emojiFontAttributes] autorelease];
+        NSAttributedString *aStr = [[NSAttributedString alloc] initWithString:emojiString attributes:emojiFontAttributes];
         CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)aStr);
         if (line) {
             CFArrayRef glyphRuns = CTLineGetGlyphRuns(line);
@@ -74,11 +74,10 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
 + (NSMutableArray <UIKeyboardEmojiCategory *> *)categories {
     if (_categories == nil) {
         NSInteger count = [self numberOfCategories];
-        NSMutableArray <UIKeyboardEmojiCategory *> *_array = [NSMutableArray arrayWithCapacity:count];
-        _categories = [_array retain];
+        _categories = [NSMutableArray arrayWithCapacity:count];
         PSEmojiCategory categoryType = 0;
         do {
-            UIKeyboardEmojiCategory *category = [[[NSClassFromString(@"UIKeyboardEmojiCategory") alloc] init] autorelease];
+            UIKeyboardEmojiCategory *category = [[NSClassFromString(@"UIKeyboardEmojiCategory") alloc] init];
             category.categoryType = categoryType;
             [_categories addObject:category];
         } while (++categoryType != count);
@@ -168,15 +167,11 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
 
 %ctor {
     emojiFont = CTFontCreateWithName(CFSTR("AppleColorEmoji"), 12.0, NULL);
-    emojiFontAttributes = [@{ (NSString *)kCTFontAttributeName : (id)emojiFont } retain];
+    emojiFontAttributes = @{ (NSString *)kCTFontAttributeName : (id)CFBridgingRelease(emojiFont) };
     %init;
 }
 
 %dtor {
     if (emojiFont)
         CFRelease(emojiFont);
-    if (emojiFontAttributes)
-        [emojiFontAttributes autorelease];
-    if (_categories)
-        [_categories autorelease];
 }

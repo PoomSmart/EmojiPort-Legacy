@@ -10,6 +10,7 @@ include $(THEOS)/makefiles/common.mk
 
 LIBRARY_NAME = EmojiPortiOS6
 $(LIBRARY_NAME)_FILES = ../EmojiHUD.mm EmojiHUDSupport.x Global.xm EmojiPicker.x LegacyUI.xm iOS83UI.x KBResizeLegacy.x Tweak6.xm
+$(LIBRARY_NAME)_CFLAGS = -fobjc-arc
 $(LIBRARY_NAME)_INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries/EmojiPort
 $(LIBRARY_NAME)_FRAMEWORKS = UIKit CoreGraphics CoreFoundation CoreText
 $(LIBRARY_NAME)_EXTRA_FRAMEWORKS = CydiaSubstrate

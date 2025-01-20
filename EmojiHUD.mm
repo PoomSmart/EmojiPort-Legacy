@@ -64,7 +64,6 @@
 
 - (void)clearViews {
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    [self.subviews makeObjectsPerformSelector:@selector(release)];
 }
 
 - (void)show:(BOOL)show {

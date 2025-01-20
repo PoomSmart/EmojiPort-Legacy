@@ -34,10 +34,9 @@ void clearTimer() {
         if (!supportsSkin)
             return;
         _emojiView = emojiView;
-        if (!EmojiHUD.sharedInstance.showing) {
+        if (!EmojiHUD.sharedInstance.showing)
             __showHUD = [NSTimer scheduledTimerWithTimeInterval:EmojiHUDHoldInterval target:self selector:@selector(_showHUD) userInfo:nil repeats:NO];
-            [__showHUD retain];
-        } else {
+        else {
             [EmojiHUD.sharedInstance hide];
         }
     } else {

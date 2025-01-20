@@ -71,9 +71,9 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
     NSInteger additionalDivider = 0;
     CGFloat barHeight = barFrame.size.height;
     CGPoint origin = barFrame.origin;
-    MSHookIvar<UIImage *>(self, "_plainDivider") = [egImage(CGRectMake(origin.x, origin.y, dividerWidth, barHeight), UIKBEmojiDivider, NO) retain];
-    MSHookIvar<UIImage *>(self, "_darkDivider") = [egImage(CGRectMake(origin.x, origin.y, dividerWidth, barHeight), UIKBEmojiDarkDivider, NO) retain];
-    MSHookIvar<UIImage *>(self, "_selectedDivider") = [egImage(CGRectMake(origin.x, origin.y, dividerWidth, barHeight), UIKBEmojiSelectedDivider, NO) retain];
+    MSHookIvar<UIImage *>(self, "_plainDivider") = egImage(CGRectMake(origin.x, origin.y, dividerWidth, barHeight), UIKBEmojiDivider, NO);
+    MSHookIvar<UIImage *>(self, "_darkDivider") = egImage(CGRectMake(origin.x, origin.y, dividerWidth, barHeight), UIKBEmojiDarkDivider, NO);
+    MSHookIvar<UIImage *>(self, "_selectedDivider") = egImage(CGRectMake(origin.x, origin.y, dividerWidth, barHeight), UIKBEmojiSelectedDivider, NO);
     NSInteger orientation = [[UIApplication sharedApplication] _frontMostAppOrientation];
     if (!IS_IPAD && ((UIKBKeyboardDefaultLandscapeWidth() > 480.0) || (orientation == 3 || orientation == 4)))
         additionalDivider = 1;
@@ -90,7 +90,6 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
             UIImageView *unselectedImageView = [[UIImageView alloc] initWithImage:currentUnselectedImages[i]];
             [self addSubview:unselectedImageView];
             [[self valueForKey:@"_segmentViews"] insertObject:unselectedImageView atIndex:i];
-            [unselectedImageView release];
         } while (++i < total);
     }
     int dividerCount = [[self valueForKey:@"_dividerTotal"] intValue];
@@ -101,7 +100,6 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
             UIImageView *dividerImageView = [[UIImageView alloc] initWithImage:dividerImage];
             [self addSubview:dividerImageView];
             [[self valueForKey:@"_dividerViews"] insertObject:dividerImageView atIndex:j];
-            [dividerImageView release];
         } while (++j - 1 < dividerCount);
     }
     [self updateSegmentAndDividers:[[self valueForKey:@"_selected"] intValue]];
@@ -113,7 +111,7 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
 
 - (UIImage *)categoryKeyGenerator:(bool)pressed rect:(CGRect)rect {
     UIKBTree *protoKey = [self protoKeyWithDisplayString:@"!"];
-    UIKBShape *shape = [[[%c(UIKBShape) alloc] initWithGeometry:nil frame:rect paddedFrame:rect] autorelease];
+    UIKBShape *shape = [[%c(UIKBShape) alloc] initWithGeometry:nil frame:rect paddedFrame:rect];
     protoKey.shape = shape;
     UIKBTree *protoKeyboard = [self protoKeyboard];
     int state = pressed ? 8 : 4;

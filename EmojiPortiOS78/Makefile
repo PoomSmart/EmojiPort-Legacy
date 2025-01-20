@@ -13,6 +13,7 @@ $(LIBRARY_NAME)_FILES = ../EmojiHUD.mm EmojiHUDSupport.x Global.xm EmojiPicker.x
 ifeq ($(SIMULATOR),1)
 	$(LIBRARY_NAME)_FILES += NoKeyboardCache.x
 endif
+$(LIBRARY_NAME)_CFLAGS = -fobjc-arc
 $(LIBRARY_NAME)_INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries/EmojiPort
 $(LIBRARY_NAME)_FRAMEWORKS = UIKit CoreGraphics CoreFoundation
 $(LIBRARY_NAME)_EXTRA_FRAMEWORKS = CydiaSubstrate

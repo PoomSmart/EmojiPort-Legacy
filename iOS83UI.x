@@ -6,7 +6,7 @@
 #import <version.h>
 
 @interface UIKeyboardEmojiScrollView (iOS83UI)
-@property(retain, nonatomic) UILabel *_mycategoryLabel;
+@property (retain, nonatomic) UILabel *_mycategoryLabel;
 - (void)updateLabel:(int)categoryType;
 @end
 
@@ -35,7 +35,7 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 
 %hook UIKeyboardEmojiScrollView
 
-%property(retain, nonatomic) UILabel *_mycategoryLabel;
+%property (retain, nonatomic) UILabel *_mycategoryLabel;
 
 %new(v@:i)
 - (void)updateLabel:(int)categoryType {
