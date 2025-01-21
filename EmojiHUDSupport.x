@@ -30,15 +30,12 @@ void clearTimer() {
 - (void)setOnDisplay:(UIKeyboardEmojiView *)emojiView {
     %orig;
     if (emojiView) {
-        BOOL supportsSkin = emojiView.emoji.supportsSkin;
-        if (!supportsSkin)
-            return;
+        if (!emojiView.emoji.supportsSkin) return;
         _emojiView = emojiView;
         if (!EmojiHUD.sharedInstance.showing)
             __showHUD = [NSTimer scheduledTimerWithTimeInterval:EmojiHUDHoldInterval target:self selector:@selector(_showHUD) userInfo:nil repeats:NO];
-        else {
+        else
             [EmojiHUD.sharedInstance hide];
-        }
     } else {
         if (EmojiHUD.sharedInstance.showing && !from)
             [EmojiHUD.sharedInstance hide];
