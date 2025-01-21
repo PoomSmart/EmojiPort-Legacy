@@ -83,8 +83,11 @@
     if (IS_IOS_OR_NEWER(iOS_6_0)) {
         UIKeyboardEmojiInputController *controller = [[NSClassFromString(@"UIKeyboardEmojiInputController") activeInputView] valueForKey:@"_inputController"];
         [controller emojiUsed:emoji];
-    } else
+    }
+#if !__LP64__
+    else
         [[NSClassFromString(@"UIKeyboardLayoutEmoji") emojiLayout] emojiSelected:emoji];
+#endif
     [self hide];
 }
 

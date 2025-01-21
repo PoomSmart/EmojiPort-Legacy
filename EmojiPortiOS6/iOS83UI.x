@@ -23,8 +23,10 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
         if (IS_IOS_OR_NEWER(iOS_8_2))
             self._mycategoryLabel.font = [UIFont systemFontOfSize:fontSize weight:UIFontWeightSemibold];
         else {
+#if !__LP64__
             if (!IS_IOS_OR_NEWER(iOS_7_0))
                 fontSize -= 1.0;
+#endif
             self._mycategoryLabel.font = [UIFont boldSystemFontOfSize:fontSize];
         }
         self._mycategoryLabel.backgroundColor = UIColor.clearColor;
@@ -59,6 +61,8 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 
 %end
 
+#if __LP64__
+
 %group iOS7Up
 
 %hook UIKeyboardEmojiScrollView
@@ -77,6 +81,8 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
 %end
 
 %end
+
+#endif
 
 %hook PSEmojiLayout
 
@@ -117,13 +123,10 @@ void configureScrollView(UIKeyboardEmojiScrollView *self, CGRect frame) {
     BOOL enabled = r ? [r boolValue] : YES;
     if (enabled) {
         %init;
-        if (IS_IOS_OR_NEWER(iOS_7_0)) {
-            %init(iOS7Up);
-        }
-#if !__LP64__
-        else {
-            %init(iOS6);
-        }
+#if __LP64__
+        %init(iOS7Up);
+#else
+        %init(iOS6);
 #endif
     }
 }
