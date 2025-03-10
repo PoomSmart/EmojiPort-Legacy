@@ -1,6 +1,7 @@
 #import <EmojiLibrary/Header.h>
 #import <EmojiLibrary/PSEmojiUtilities.h>
 #import <UIKit/UIKeyboardPreferencesController.h>
+#import <version.h>
 
 CGFloat scaleFactor = CATEGORIES_COUNT / 6.;
 
@@ -15,8 +16,6 @@ CGFloat scaleFactor = CATEGORIES_COUNT / 6.;
 }
 
 %end
-
-#if __LP64__
 
 %group iOS7Up
 
@@ -52,7 +51,7 @@ CGFloat scaleFactor = CATEGORIES_COUNT / 6.;
 
 %end
 
-#else
+#if !__LP64__
 
 %group iOS6
 
@@ -71,9 +70,12 @@ CGFloat scaleFactor = CATEGORIES_COUNT / 6.;
 
 %ctor {
     %init;
-#if __LP64__
-    %init(iOS7Up);
-#else
-    %init(iOS6);
+    if (IS_IOS_OR_NEWER(iOS_7_0)) {
+        %init(iOS7Up);
+    }
+#if !__LP64__
+    else {
+        %init(iOS6);
+    }
 #endif
 }

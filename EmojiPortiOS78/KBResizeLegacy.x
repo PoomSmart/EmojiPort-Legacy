@@ -90,8 +90,6 @@ void modifyKeyboard(UIKBTree *keyboard, NSString *name) {
     }
 }
 
-#if __LP64__
-
 %group iOS70
 
 %hook TIKeyboardFactory
@@ -106,7 +104,7 @@ void modifyKeyboard(UIKBTree *keyboard, NSString *name) {
 
 %end
 
-#else
+#if !__LP64__
 
 %group iOS6
 
@@ -166,9 +164,12 @@ void modifyKeyboard(UIKBTree *keyboard, NSString *name) {
         return;
     dlopen(realPath2(@"/System/Library/PrivateFrameworks/TextInput.framework/TextInput"), RTLD_NOW);
     %init;
-#if __LP64__
-    %init(iOS70);
-#else
-    %init(iOS6);
+    if (IS_IOS_OR_NEWER(iOS_7_0)) {
+        %init(iOS70);
+    }
+#if !__LP64__
+    else {
+        %init(iOS6);
+    }
 #endif
 }
