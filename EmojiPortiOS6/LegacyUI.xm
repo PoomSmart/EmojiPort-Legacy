@@ -68,21 +68,22 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
     barFrame.size.width = (barWidth - (numberOfCategories + 1) * dividerWidth) / numberOfCategories;
     [self setValue:emojiCategoryBarImages(barFrame, NO) forKey:@"_unselectedImages"];
     [self setValue:emojiCategoryBarImages(barFrame, YES) forKey:@"_selectedImages"];
-    NSInteger additionalDivider = 0;
+    int additionalDivider = 0;
     CGFloat barHeight = barFrame.size.height;
     CGPoint origin = barFrame.origin;
-    MSHookIvar<UIImage *>(self, "_plainDivider") = egImage(CGRectMake(origin.x, origin.y, dividerWidth, barHeight), UIKBEmojiDivider, NO);
-    MSHookIvar<UIImage *>(self, "_darkDivider") = egImage(CGRectMake(origin.x, origin.y, dividerWidth, barHeight), UIKBEmojiDarkDivider, NO);
-    MSHookIvar<UIImage *>(self, "_selectedDivider") = egImage(CGRectMake(origin.x, origin.y, dividerWidth, barHeight), UIKBEmojiSelectedDivider, NO);
+    [self setValue:egImage(CGRectMake(origin.x, origin.y, dividerWidth, barHeight), UIKBEmojiDivider, NO) forKey:@"_plainDivider"];
+    [self setValue:egImage(CGRectMake(origin.x, origin.y, dividerWidth, barHeight), UIKBEmojiDarkDivider, NO) forKey:@"_darkDivider"];
+    [self setValue:egImage(CGRectMake(origin.x, origin.y, dividerWidth, barHeight), UIKBEmojiSelectedDivider, NO) forKey:@"_selectedDivider"];
     NSInteger orientation = [[UIApplication sharedApplication] _frontMostAppOrientation];
     if (!IS_IPAD && ((UIKBKeyboardDefaultLandscapeWidth() > 480.0) || (orientation == 3 || orientation == 4)))
         additionalDivider = 1;
     NSArray <UIImage *> *currentUnselectedImages = [self valueForKey:@"_unselectedImages"];
     NSUInteger unselectedImagesCount = [currentUnselectedImages count];
     MSHookIvar<NSInteger>(self, "_total") = unselectedImagesCount;
-    MSHookIvar<NSInteger>(self, "_dividerTotal") = unselectedImagesCount + additionalDivider;
-    MSHookIvar<NSMutableArray *>(self, "_segmentViews") = [[NSMutableArray alloc] initWithCapacity:MSHookIvar<NSInteger>(self, "_total")];
-    MSHookIvar<NSMutableArray *>(self, "_dividerViews") = [[NSMutableArray alloc] initWithCapacity:MSHookIvar<NSInteger>(self, "_dividerTotal") + 1];
+    int dividerTotal = unselectedImagesCount + additionalDivider;
+    MSHookIvar<NSInteger>(self, "_dividerTotal") = dividerTotal;
+    [self setValue:[[NSMutableArray alloc] initWithCapacity:unselectedImagesCount] forKey:@"_segmentViews"];
+    [self setValue:[[NSMutableArray alloc] initWithCapacity:dividerTotal + 1] forKey:@"_dividerViews"];
     int total = [[self valueForKey:@"_total"] intValue];
     if (total) {
         int i = 0;
@@ -92,15 +93,14 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
             [[self valueForKey:@"_segmentViews"] insertObject:unselectedImageView atIndex:i];
         } while (++i < total);
     }
-    int dividerCount = [[self valueForKey:@"_dividerTotal"] intValue];
-    if (dividerCount) {
+    if (dividerTotal) {
         int j = 0;
         do {
-            UIImage *dividerImage = (j && j < dividerCount) ? MSHookIvar<UIImage *>(self, "_plainDivider") : MSHookIvar<UIImage *>(self, "_darkDivider");
+            UIImage *dividerImage = (j && j < dividerTotal) ? [self valueForKey:@"_plainDivider"] : [self valueForKey:@"_darkDivider"];
             UIImageView *dividerImageView = [[UIImageView alloc] initWithImage:dividerImage];
             [self addSubview:dividerImageView];
             [[self valueForKey:@"_dividerViews"] insertObject:dividerImageView atIndex:j];
-        } while (++j - 1 < dividerCount);
+        } while (++j - 1 < dividerTotal);
     }
     [self updateSegmentAndDividers:[[self valueForKey:@"_selected"] intValue]];
 }
@@ -124,9 +124,9 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
         UIKBThemeSetSymbolColor(theme, UIKBGetNamedColor(CFSTR("UIKBColorWhite")));
         UIKBThemeSetEtchColor(theme, UIKBGetNamedColor(CFSTR("UIKBColorBlack_Alpha50")));
         UIKBThemeSetEtchDY(theme, -1.0);
-        CGColorRef end = UIKBGetNamedColor(CFSTR("UIKBColorKeyBlueRow1GradientEnd"));
-        CGColorRef start = UIKBGetNamedColor(CFSTR("UIKBColorKeyBlueRow1GradientStart"));
-        gradient = UIKBCreateTwoColorLinearGradient(end, start);
+        CGColorRef gradientEnd = UIKBGetNamedColor(CFSTR("UIKBColorKeyBlueRow1GradientEnd"));
+        CGColorRef gradientStart = UIKBGetNamedColor(CFSTR("UIKBColorKeyBlueRow1GradientStart"));
+        gradient = UIKBCreateTwoColorLinearGradient(gradientEnd, gradientStart);
         UIKBThemeSetForegroundGradient(theme, gradient);
     } else {
         color = UIKBColorCreate(69, 69, 85, 1.0);

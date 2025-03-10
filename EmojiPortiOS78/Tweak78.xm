@@ -102,7 +102,3 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
 }
 
 %end
-
-%ctor {
-    %init;
-}
