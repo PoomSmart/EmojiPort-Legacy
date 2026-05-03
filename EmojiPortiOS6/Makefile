@@ -2,7 +2,7 @@ ifeq ($(SIMULATOR),1)
 	TARGET = simulator:clang:latest:8.0
 	ARCHS = i386
 else
-	TARGET = iphone:clang:latest:6.0
+	TARGET = iphone:clang:14.5:6.0
 	ARCHS = armv7
 endif
 

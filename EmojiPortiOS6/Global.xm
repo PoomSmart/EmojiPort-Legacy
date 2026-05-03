@@ -5,7 +5,7 @@ NSArray <NSString *> *displaySymbolsAsImageNames() {
 }
 
 NSArray <NSString *> *displaySymbolsAsGlyphs() {
-    return @[@"🕘", @"😀", @"🐻", @"🌇", @"💡", @"🔣", @"⚽️", @"🍔", @"🏳"];
+    return @[@"🕘", @"😀", @"🐻", @"🍔", @"⚽️", @"🌇", @"💡", @"🔣", @"🏳"];
 }
 
 BOOL isTargetKey(NSString *name) {

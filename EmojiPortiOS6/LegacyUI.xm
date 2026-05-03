@@ -188,25 +188,25 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
 }
 
 - (UIImage *)categoryPlacesGenerator:(id)pressed {
-    return [self categoryWithSymbol:displaySymbolsAsGlyphs()[3] pressed:pressed];
+    return [self categoryWithSymbol:displaySymbolsAsGlyphs()[5] pressed:pressed];
 }
 
 - (UIImage *)categoryObjectsGenerator:(id)pressed {
-    return [self categoryWithSymbol:displaySymbolsAsGlyphs()[4] pressed:pressed];
+    return [self categoryWithSymbol:displaySymbolsAsGlyphs()[6] pressed:pressed];
 }
 
 - (UIImage *)categorySymbolsGenerator:(id)pressed {
-    return [self categoryWithSymbol:displaySymbolsAsGlyphs()[5] pressed:pressed];
+    return [self categoryWithSymbol:displaySymbolsAsGlyphs()[7] pressed:pressed];
 }
 
 %new(@@:@)
 - (UIImage *)categoryActivityGenerator:(id)pressed {
-    return [self categoryWithSymbol:displaySymbolsAsGlyphs()[6] pressed:pressed];
+    return [self categoryWithSymbol:displaySymbolsAsGlyphs()[4] pressed:pressed];
 }
 
 %new(@@:@)
 - (UIImage *)categoryFoodAndDrinkGenerator:(id)pressed {
-    return [self categoryWithSymbol:displaySymbolsAsGlyphs()[7] pressed:pressed];
+    return [self categoryWithSymbol:displaySymbolsAsGlyphs()[3] pressed:pressed];
 }
 
 %new(@@:@)

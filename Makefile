@@ -2,7 +2,8 @@ ifeq ($(SIMULATOR),1)
 	TARGET = simulator:clang:latest:8.0
 	ARCHS = x86_64 i386
 else
-	TARGET = iphone:clang:latest:6.0
+	TARGET = iphone:clang:14.5:6.0
+	export PREFIX = $(THEOS)/toolchain/Xcode11.xctoolchain/usr/bin/
 	ARCHS = armv7 arm64
 endif
 

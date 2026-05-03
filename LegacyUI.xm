@@ -112,7 +112,7 @@ NSMutableArray <UIImage *> *emojiCategoryBarImages(CGRect frame, BOOL pressed) {
 - (UIImage *)categoryKeyGenerator:(bool)pressed rect:(CGRect)rect {
     UIKBTree *protoKey = [self protoKeyWithDisplayString:@"!"];
     UIKBShape *shape = [[%c(UIKBShape) alloc] initWithGeometry:nil frame:rect paddedFrame:rect];
-    protoKey.shape = shape;
+    [protoKey setValue:shape forKey:@"shape"];
     UIKBTree *protoKeyboard = [self protoKeyboard];
     int state = pressed ? 8 : 4;
     UIKBThemeRef theme = [self createProtoThemeForKey:protoKey keyboard:protoKeyboard state:state];
