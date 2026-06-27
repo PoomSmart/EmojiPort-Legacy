@@ -23,16 +23,13 @@ void fixEmojiGlyph(UIKeyboardEmoji *emoji) {
         CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)aStr);
         if (line) {
             CFArrayRef glyphRuns = CTLineGetGlyphRuns(line);
-            if (glyphRuns) {
+            if (glyphRuns && CFArrayGetCount(glyphRuns) > 0) {
                 CTRunRef glyphRun = (CTRunRef)CFArrayGetValueAtIndex(glyphRuns, 0);
-                if (glyphRun) {
-                    const CGGlyph *glyphs2 = CTRunGetGlyphsPtr(glyphRun);
-                    if (glyphs2)
-                        emoji.glyph = glyphs2[0];
-                    CFRelease(glyphRun);
-                }
-                CFRelease(glyphRuns);
+                const CGGlyph *glyphs2 = CTRunGetGlyphsPtr(glyphRun);
+                if (glyphs2)
+                    emoji.glyph = glyphs2[0];
             }
+            CFRelease(line);
         }
     } else {
         unichar characters[16] = { 0 };
@@ -167,11 +164,13 @@ static NSMutableArray <UIKeyboardEmojiCategory *> *_categories;
 
 %ctor {
     emojiFont = CTFontCreateWithName(CFSTR("AppleColorEmoji"), 12.0, NULL);
-    emojiFontAttributes = @{ (NSString *)kCTFontAttributeName : (id)CFBridgingRelease(emojiFont) };
+    emojiFontAttributes = @{ (NSString *)kCTFontAttributeName : (__bridge id)emojiFont };
     %init;
 }
 
 %dtor {
-    if (emojiFont)
+    if (emojiFont) {
         CFRelease(emojiFont);
+        emojiFont = NULL;
+    }
 }
